@@ -9,6 +9,45 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-10-17] — Weekly local refresh: a 34.6k-star roleplay frontend, a model-swapping proxy, Weaviate, and OpenAI's open weights
+
+This refresh added 5 tools. It builds on the still-open, unmerged
+[#9](https://github.com/chid/awesome-free-ai/pull/9) refresh below (96 local
+tools) on the same `refresh/2026-10` branch, taking the running total from
+96 to **101 local tools**. Corrected the README's Local Tools badge to match
+(96 → 101); the Paid Tools badge was already accurate at 28.
+
+### Added
+- **SillyTavern** — Web UI. Locally installed LLM frontend for power users
+  with character cards, World Info lorebooks, group chats, and vector-store
+  long-term memory; pairs with local backends (KoboldCpp, TextGen/oobabooga,
+  Ollama, LM Studio) or cloud APIs. AGPL-3.0, 34.6k stars, commits through
+  Oct 14 2026.
+- **llama-swap** — Local Runner. Single-binary Go proxy that inspects the
+  `model` field of incoming OpenAI/Anthropic-compatible requests and starts
+  or swaps the matching local backend (llama.cpp, vLLM, etc.) on demand, so
+  one stable endpoint can serve many models. MIT, 6k stars, commits through
+  Oct 14 2026.
+- **Weaviate** — Embeddings / RAG. Self-hostable hybrid (vector + keyword)
+  search database with multi-tenancy and native local embedding/reranking
+  modules; Community Edition runs free via Docker. BSD-3-Clause core
+  (Enterprise-only `wl/` folder is separately commercially licensed), 16.9k
+  stars, commits through Oct 16 2026.
+- **gpt-oss** — Open Weights (LLM). OpenAI's first open-weight model family
+  since GPT-2 (gpt-oss-120b, gpt-oss-20b) for reasoning and agentic tool use,
+  with reference PyTorch/Triton/Metal implementations and day-one Ollama/LM
+  Studio support. Apache-2.0, 20.5k stars, commits through Oct 12 2026.
+- **VibeVoice** — Audio & Speech. Microsoft's open speech family spanning
+  long-form multi-speaker TTS (up to 90 min), real-time streaming TTS, and
+  long-audio ASR (up to 60 min), including a CPU-only BitNet ASR variant;
+  fills a distinct long-form/multi-speaker niche alongside this list's
+  existing voice-cloning TTS tools. MIT, 54.9k stars, commits through Oct 8
+  2026.
+
+No cross-pathway duplicates found in `resources.csv` or `paid_resources.csv`,
+and no drift (archival, relicensing, renaming) turned up in the existing
+rows this week.
+
 ## [2026-10-10] — Weekly local refresh: 14 additions across code agents, serving, fine-tuning, and open weights; retired a dormant desktop client
 
 This refresh added 14 tools and removed 1 dormant entry, taking the total

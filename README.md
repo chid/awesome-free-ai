@@ -5,14 +5,14 @@
 # Awesome Free AI
 
 ![Free Resources](https://img.shields.io/badge/Free_Resources-72-success)
-![Local Tools](https://img.shields.io/badge/Local_Tools-96-blue)
+![Local Tools](https://img.shields.io/badge/Local_Tools-101-blue)
 ![Paid Tools](https://img.shields.io/badge/Paid_Tools-28-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Last Updated](https://img.shields.io/badge/Updated-October_2026-orange)
 
 Free tiers change fast — tools get paywalled, rebranded, or shut down. This list captures what was on offer at the time of each update, with every change tracked in [`history.csv`](history.csv) and summarised in [`CHANGELOG.md`](CHANGELOG.md). Think of it less as a permanent directory and more as a dated edition: accurate when written, audited on refresh.
 
-**72 resources** across 15 categories. Browse the [live site](https://chid.github.io/awesome-free-ai/) for a filterable, searchable UI, or read on. Dedicated local & self-hosted runners and models live in [`local_resources.csv`](local_resources.csv) (96 tools), tools with no genuine free tier live in [`paid_resources.csv`](paid_resources.csv) (28 of them), and [`QUOTAS.md`](QUOTAS.md) tracks how paid AI plans meter usage — increasingly the thing that separates a real free tier from a nominal one.
+**72 resources** across 15 categories. Browse the [live site](https://chid.github.io/awesome-free-ai/) for a filterable, searchable UI, or read on. Dedicated local & self-hosted runners and models live in [`local_resources.csv`](local_resources.csv) (101 tools), tools with no genuine free tier live in [`paid_resources.csv`](paid_resources.csv) (28 of them), and [`QUOTAS.md`](QUOTAS.md) tracks how paid AI plans meter usage — increasingly the thing that separates a real free tier from a nominal one.
 
 ### What is this?
 A snapshot of genuinely free (or free-tier) AI tools, APIs, and platforms **as they existed in October 2026**. Free tiers change fast — tools get paywalled, rebranded, or shut down. This directory captures what was on offer at the time of each update, tracking every tier shift and limit change. Think of it less as a permanent directory and more as a dated edition: accurate when written, audited on refresh.
