@@ -9,6 +9,118 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-10-17] — Weekly local refresh: a 34.6k-star roleplay frontend, a model-swapping proxy, Weaviate, and OpenAI's open weights
+
+This refresh added 5 tools. It builds on the still-open, unmerged
+[#9](https://github.com/chid/awesome-free-ai/pull/9) refresh below (96 local
+tools) on the same `refresh/2026-10` branch, taking the running total from
+96 to **101 local tools**. Corrected the README's Local Tools badge to match
+(96 → 101); the Paid Tools badge was already accurate at 28.
+
+### Added
+- **SillyTavern** — Web UI. Locally installed LLM frontend for power users
+  with character cards, World Info lorebooks, group chats, and vector-store
+  long-term memory; pairs with local backends (KoboldCpp, TextGen/oobabooga,
+  Ollama, LM Studio) or cloud APIs. AGPL-3.0, 34.6k stars, commits through
+  Oct 14 2026.
+- **llama-swap** — Local Runner. Single-binary Go proxy that inspects the
+  `model` field of incoming OpenAI/Anthropic-compatible requests and starts
+  or swaps the matching local backend (llama.cpp, vLLM, etc.) on demand, so
+  one stable endpoint can serve many models. MIT, 6k stars, commits through
+  Oct 14 2026.
+- **Weaviate** — Embeddings / RAG. Self-hostable hybrid (vector + keyword)
+  search database with multi-tenancy and native local embedding/reranking
+  modules; Community Edition runs free via Docker. BSD-3-Clause core
+  (Enterprise-only `wl/` folder is separately commercially licensed), 16.9k
+  stars, commits through Oct 16 2026.
+- **gpt-oss** — Open Weights (LLM). OpenAI's first open-weight model family
+  since GPT-2 (gpt-oss-120b, gpt-oss-20b) for reasoning and agentic tool use,
+  with reference PyTorch/Triton/Metal implementations and day-one Ollama/LM
+  Studio support. Apache-2.0, 20.5k stars, commits through Oct 12 2026.
+- **VibeVoice** — Audio & Speech. Microsoft's open speech family spanning
+  long-form multi-speaker TTS (up to 90 min), real-time streaming TTS, and
+  long-audio ASR (up to 60 min), including a CPU-only BitNet ASR variant;
+  fills a distinct long-form/multi-speaker niche alongside this list's
+  existing voice-cloning TTS tools. MIT, 54.9k stars, commits through Oct 8
+  2026.
+
+No cross-pathway duplicates found in `resources.csv` or `paid_resources.csv`,
+and no drift (archival, relicensing, renaming) turned up in the existing
+rows this week.
+
+## [2026-10-10] — Weekly local refresh: 14 additions across code agents, serving, fine-tuning, and open weights; retired a dormant desktop client
+
+This refresh added 14 tools and removed 1 dormant entry, taking the total
+from 83 to 96 local tools. Verified the README's local/paid/free counts
+against the actual CSV row counts via `python3 update.py`'s audit (72 free,
+28 paid, 96 local).
+
+### Added
+- **Crush** (Charmbracelet) — Code Assistant. Terminal agentic coding
+  assistant with MCP server support and auto-discovery of local model
+  providers (Ollama, llama.cpp, LM Studio, MLX). FSL-1.1-MIT (fair-source,
+  converts to MIT after 2 years), v0.98.1 released Oct 9 2026.
+- **fast-agent** — Agent Framework. MCP-native Python framework for
+  building, running, and evaluating agents with first-class local-model
+  support via Ollama/llama.cpp. Apache-2.0.
+- **Letta** — Agent Framework. Self-hostable stateful-agents platform with
+  long-term memory, runs fully local against Ollama/LM Studio. Apache-2.0.
+- **Agno** — Agent Framework. Python multi-agent framework with native
+  Ollama model classes and an MCP tools layer. Apache-2.0.
+- **KTransformers** — Serving Engine. Heterogeneous CPU+GPU inference
+  framework that offloads large MoE models (DeepSeek-V3/R1) onto
+  consumer-grade hardware via kernels injected into Hugging Face
+  Transformers. Apache-2.0, v0.7.1 released Sep 15 2026.
+- **Harbor** — Local Runner. Docker Compose launcher that wires up a
+  complete local LLM stack (backends + frontends) in one command — same
+  spirit as the already-listed RamaLama. Apache-2.0.
+- **Gemma 4** (Google DeepMind) — Vision & Multimodal. First Apache-2.0
+  Gemma generation, with native multimodal (image/video, audio on smaller
+  sizes) across all sizes. Family launched Apr 2 2026.
+- **LTX-2.5** (Lightricks) — Image & Video Gen. 22B open-weight video+audio
+  diffusion model with ComfyUI support and GGUF quants. LTX-2.x Community
+  License (free under $10M revenue, same shape as the already-listed
+  HunyuanVideo-1.5/FLUX 3).
+- **HiDream-O1-Image** — Image & Video Gen. 8B unified transformer for
+  text-to-image, instruction editing, and personalization on a single
+  consumer GPU. MIT.
+- **LongCat-2.0** (Meituan) — Open Weights (LLM). 1.6T/~48B-active MoE with
+  claimed 1M-token context, datacenter-only like the already-listed Kimi K3
+  / MiniMax-M3; community GGUF/Ollama quants available. MIT.
+- **PMetal** — Fine-tuning / Quant. Rust Apple Silicon fine-tuning framework
+  (LoRA/QLoRA/full/DPO/KTO/GRPO) filling the CUDA-centric gap next to
+  Unsloth/Axolotl/LLaMA-Factory. Dual MIT/Apache-2.0.
+- **LLM Compressor** (vLLM project) — Fine-tuning / Quant. Quantization
+  library (GPTQ/AWQ/SmoothQuant/FP8/NVFP4) producing compressed-tensors
+  checkpoints for local serving. Apache-2.0.
+- **AIPerf** — Hardware / Benchmarking. NVIDIA's actively-developed
+  successor to genai-perf/perf_analyzer for benchmarking self-hosted
+  inference servers; fills a second slot alongside LocalScore with a
+  server-throughput focus. Apache-2.0.
+- **EvalScope** (ModelScope) — Evaluation & Harnesses. Evaluation framework
+  covering capability/RAG/agent/perf benchmarks against local
+  OpenAI-compatible endpoints. Apache-2.0.
+
+### Removed
+- **GPT4All** (Desktop Client) — dormant: last commit on the `main` branch
+  is 2025-05-27, last tagged release (v3.10.0) is from 2025-02-25, well
+  outside the 6-month maintenance bar applied to this list. Repo isn't
+  archived, just inactive; worth re-adding if development resumes.
+
+### Considered but not added (this week)
+- **NVIDIA Dynamo** / **llm-d** / **GPUStack** — datacenter-cluster
+  serving-orchestration layers over vLLM/SGLang/TensorRT-LLM; excluded per
+  the stricter bar set in the 2026-10-03 refresh (not a tool a reader runs
+  on their own machine).
+- **Sonar** (formerly Aphrodite Engine, now under `dphnAI`) — vLLM-based
+  quantized serving engine; technically qualifies, but passed over as
+  redundant with the already-listed vLLM/SGLang/ExLlamaV3/mistral.rs for
+  this week's batch.
+- **Cline**, **Aider**, **OpenCode**, **Kilo Code** — all genuinely capable
+  of running fully offline against Ollama/LM Studio, but already correctly
+  placed in `resources.csv` as general BYOK coding agents (not local-only
+  tools); not duplicated here. See PR body for the one-tool-one-pathway note.
+
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 
 Renamed the repository to `chid/awesome-free-ai` and updated the published-site
