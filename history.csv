@@ -74,3 +74,4 @@ date,action,name,category,url,notes
 2026-09-10,add,Matilda (Maincode),Code Assistant,https://www.maincode.com/matilda-code,Maincode terminal CLI + desktop coding agent; free during Public Beta; added manually at user request
 2026-10-07,add,Devin,Code Assistant,https://devin.ai,found via refresh — free tier added July 2026 (light agent quota + unlimited completions); Pro $20/mo
 2026-10-07,remove,Windsurf (formerly Codeium),Code Assistant,https://windsurf.com,replaced by Devin — Windsurf Pro remains in paid_resources.csv
+2026-10-28,add,Jvlang AI,Search / Research,https://jvlangai.com/,Maintainer-disclosed submission; free public quote and source lookup; not an inference API

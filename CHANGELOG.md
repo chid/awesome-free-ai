@@ -9,6 +9,10 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-10-28] — Added Jvlang AI
+
+Added Jvlang AI as a Chinese-language reference for public model and API-provider prices and original sources. Queries are free and require no signup. The site does not provide inference services.
+
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 
 Renamed the repository to `chid/awesome-free-ai` and updated the published-site
