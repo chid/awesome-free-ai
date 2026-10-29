@@ -107,6 +107,7 @@ Text-to-image tools that are free or have a meaningful free tier.
 - **[Ideogram](https://ideogram.ai)** — Text-to-image with strong typography. *Free tier available.*
 - **[Playground AI](https://playground.com)** — Image generation and editing. *Free tier available.*
 - **[Canva AI](https://canva.com)** — AI image generation and design tools. *Free tier with AI features.*
+- **[PromptImage](https://promptimage.cloud)** — Free AI image gallery + image/video generator. *Freemium free tier.*
 
 ## Video Generation
 AI tools for generating or editing video.
@@ -117,6 +118,13 @@ AI tools for generating or editing video.
 - **[Kling AI](https://kling.ai)** — High-quality text-to-video and image-to-video generation from Kuaishou. *Free tier: ~66 credits/month (daily login grants are now tied to paid plans; watermarked outputs).*
 - **[Pika](https://pika.art)** — AI video generation and image-animation with text-to-video controls. *Free plan with monthly credits.*
 - **[Dreamina (Seedance 2.0)](https://dreamina.capcut.com)** — ByteDance's text- and image-to-video generator running the Seedance 2.0 model with native audio. *Free daily credits (~2-3 videos/day) at up to 1080p, watermark-free.*
+- **[GrokVideo Studio](https://grokvideogenerator.dev)** — Independent text/image-to-video via xAI Grok Imagine API (not official xAI/X). *Free trial credits.*
+- **[Alors On Danse Video Maker](https://alorsondansevideo.com)** — Independent AI: two photos → 13s studio dance video (Paid; not affiliated with Stromae/TikTok).
+- **[Bad Times AI](https://badtimesai.dev)** — Independent AI dance effect: one photo → 14–15s portrait dance video (Paid from $7.99).
+- **[I Found You in the Crowd AI](https://ifoundyouinthecrowdai.com)** — Independent AI scene effect: two photos → balcony/spotlight meeting video (Paid from $7.99).
+- **[KDA Firestarter AI Dance](https://kdafirestarterai.dev)** — Independent unofficial AI dance effect: one photo → 13s widescreen solo dance video (Paid from $7.99; not affiliated with Riot/KDA).
+- **[A2O LITE NEON AI Dance](https://a2oliteai.org)** — Independent unofficial AI dance: two photos → neon dual dance video (Paid from $7.99).
+- **[dime dime baby ai](https://dimedimebabyai.dev)** — Independent unofficial AI dance effect: one photo → short dance video (Paid from $7.99).
 
 ## Audio & Voice
 Text-to-speech, voice cloning, and speech recognition.
