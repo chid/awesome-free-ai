@@ -9,6 +9,48 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-10-31] — Weekly local refresh: multi-model local ASR and an embedded vector database
+
+This refresh added 2 tools (105 → 107 local). Verified the README's
+local/paid/free counts against the actual CSV row counts via
+`python3 update.py`'s audit (72 free, 28 paid, 107 local) — no drift found
+in existing rows this week.
+
+### Added
+- **OpenASR** (QuintinShaw) — Audio & Speech. Local-first speech-to-text
+  CLI, API, and desktop app wrapping seven offline ASR model families
+  (Whisper, Qwen3-ASR, Parakeet, SenseVoice, and more) with live captions
+  and speaker diarization. Apache-2.0 core, 291 stars, commits through
+  Oct 30 2026.
+- **Chroma** — Embeddings / RAG. Open-source AI-native embedding database
+  for RAG with vector/hybrid/full-text search, runnable embedded in-process
+  or self-hosted via Docker with no mandatory cloud dependency. Apache-2.0,
+  29.6k stars, commits through Oct 22 2026.
+
+### Considered but not added
+- **llama-swap**, **ds4 (DwarfStar)**, **Gemma 4** — independently
+  surfaced by this week's research pass, but all three are already listed
+  (added in the Oct 17 and Oct 10 updates on this same refresh cycle), so
+  skipped as duplicates rather than re-added.
+- **OpenClaw** — general-purpose, chat-platform-driven AI assistant (MIT,
+  heavily starred). Local models are one of several swappable backends
+  rather than the project's primary design, and its naming/ownership has
+  churned through Clawdbot → OpenClaw → reported Moltbot renames amid a
+  trademark dispute; too unsettled to confidently catalog as a local-first
+  Agent Framework this week.
+- **Aphrodite Engine** (PygmalionAI) / **Sonar** (dphnAI) — already
+  considered and passed over in the Oct 10 update as redundant with the
+  already-listed vLLM; this week's pass independently reached the same
+  conclusion.
+
+### Known issue (out of scope for this refresh)
+- `resources.csv` row 73 (**Devin**) has an unquoted `description` field
+  containing commas, which breaks CSV parsing and makes `update.py`'s audit
+  report an `Invalid requires_signup` error on that row. This predates this
+  refresh (introduced in commit `73be6b8`, still present as of this week)
+  and sits in the free-tools pathway, which this prompt does not touch —
+  needs a fix via the free-tools refresh.
+
 ## [2026-10-24] — Weekly local refresh: a self-tuning agent backend, an Apple Silicon serving engine, and an on-device TTS runtime
 
 This refresh added 4 tools (101 → 105 local). Verified the README's
