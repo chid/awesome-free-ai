@@ -9,6 +9,32 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-07] — Weekly local refresh: antirez's DwarfStar runner, JetBrains' Mellum2, and vLLM's compression library
+
+This refresh added 3 tools (83 → 86 local). Verified the README's
+local/paid/free counts against the actual CSV row counts via `python3
+update.py`'s audit (72 free, 28 paid, 86 local) and fixed two stale badges
+(Local Tools and Paid Tools counts had drifted from the real row counts). No
+existing rows had drifted this week — spot-checked FLUX 3 Dev (still
+unreleased) and Codebuff (still active) with no changes needed.
+
+### Added
+- **ds4 (DwarfStar)** — Local Runner. Salvatore Sanfilippo's (antirez, Redis
+  creator) narrow native inference engine for a curated set of frontier
+  open-weight models (DeepSeek V4/V4.1 Flash, DeepSeek V4 PRO, GLM
+  5.2/5.3/5.3 Flash, Qwen3.8 Flash Next) with an HTTP server and a built-in
+  coding agent. MIT, 24.3k stars, commits through Nov 3 2026.
+- **Mellum2** (JetBrains) — Open Weights (LLM). Open-weight 12B-A2.5B
+  mixture-of-experts coding model family (Base/Instruct/Thinking) for
+  self-hosted coding-agent infrastructure, with native vLLM support and
+  community GGUF builds. Apache-2.0, released Jun 1 2026.
+- **llm-compressor** (vLLM project) — Fine-tuning / Quant. Post-training
+  quantization and compression library (FP8/INT4, KV-cache quant, MoE expert
+  pruning) producing vLLM-ready compressed-tensors checkpoints entirely
+  offline; complements the existing GPTQModel/Axolotl/Unsloth/LLaMA-Factory
+  rows with a deployment-compression focus. Apache-2.0, 4.0k stars, recent
+  checkpoints published for GLM-5.3 and Qwen3.8.
+
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 
 Renamed the repository to `chid/awesome-free-ai` and updated the published-site
