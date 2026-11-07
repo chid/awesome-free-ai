@@ -60,6 +60,14 @@ licence, context and launch-date corrections. Logged in `model_releases_history.
   the week of Nov 16 (reported). The S-1/A says future models may soon cross the RSP "accelerated
   progress" threshold.
 
+### Qwen4 placeholders
+- The single "Qwen4 (announced)" row is now four placeholder rows, one per announced tier:
+  Qwen4-Max, Qwen4-Plus and Qwen4-Flash (expected API-only) and Qwen4-27B (the only tier
+  slated for open weights). They're dated Sep 22 (Apsara) with `TBD` params, context and licence.
+- `models.html` treats `license = TBD` as a placeholder: dashed card, a **Placeholder** badge,
+  no "New" tag, and left out of the 12-month region counts. When a tier ships, set its real date,
+  specs and licence, which turns the placeholder into a normal release.
+
 ### Review fixes
 - **Re-dated rows from the October data load, which were all dated "Aug 2026":** Kimi K3 → Jul 16
   (weights Jul 27, 2.8T, 1M context); MiniMax M3 → Jun 1 (licence corrected from MIT to MiniMax

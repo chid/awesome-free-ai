@@ -115,3 +115,8 @@ date,action,name,notes
 2026-11-07,edit,Qwen3.8-Flash-Next,"date per Wikipedia; was {'date': '2026-08-24', 'notes': 'Open-weight Flash tier of the Qwen3.8 line (FP8 variant also published); last Qwen text release before Qwen4'}"
 2026-11-07,edit,Mistral Large 4,"dates and licence per Wikipedia; was {'date': '2026-09-30', 'license': 'Custom (see model card)', 'notes': 'Trillion-parameter open MoE from Mistral; NVFP4 build followed in mid-October'}"
 2026-11-07,edit,Step-5-Preview,"licence from LICENSE.txt; was {'license': 'Custom (see model card)', 'notes': ""Preview of StepFun's fifth-generation model with BF16 and NVFP4 weights"", 'params': '—'}"
+2026-11-07,remove,Qwen4 (announced),replaced by one placeholder row per announced tier
+2026-11-07,add,Qwen4-Max,placeholder (license TBD) until release; update date/params/context/license when it ships
+2026-11-07,add,Qwen4-Plus,placeholder (license TBD) until release; update date/params/context/license when it ships
+2026-11-07,add,Qwen4-Flash,placeholder (license TBD) until release; update date/params/context/license when it ships
+2026-11-07,add,Qwen4-27B,placeholder (license TBD) until release; update date/params/context/license when it ships

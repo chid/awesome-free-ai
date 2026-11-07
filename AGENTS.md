@@ -40,7 +40,7 @@ A self-updating directory of free AI tools, served as a static web page driven b
 | `watch_setup_prompt.md` | One-time prompt to build `check_tiers.py` + `watch_pages.csv` (local tier-change watcher) |
 | `models_viz_prompt.md` | One-time prompt to build `models.html` + `model_releases.csv` (open-weights model release timeline, seeded from models.fyi) |
 | `models.html` | Static model release timeline page; fetches `model_releases.csv` at load — serve via `python3 -m http.server` |
-| `model_releases.csv` | Data for the timeline — notable releases, two-year rolling window plus `notable` classics |
+| `model_releases.csv` | Data for the timeline — notable releases, two-year rolling window plus `notable` classics. A row with `license` = `TBD` is a **placeholder** for an announced, unshipped model (e.g. the Qwen4 tiers): the page badges it and leaves it out of the region counts. When it ships, fill in the real date, specs and licence, and log an `edit` |
 | `model_releases_history.csv` | Append-only seed/change log for `model_releases.csv` |
 | `rumours.html` | Rumoured/announced-but-unshipped models ranked by prediction-market odds, plus filings (e.g. Anthropic's S-1); fetches `rumours.csv` |
 | `rumours.csv` | Data for the rumour page: `item, lab, kind (model/filing), status (Rumoured/Announced/Confirmed), expected, probability, market_scope (blank = the market is for this exact model; otherwise what it resolves on, e.g. "any Qwen model"), notes, source_label, source_url, checked`. Once something ships, move it to `model_releases.csv` and delete it here. This file is a snapshot, not a log |

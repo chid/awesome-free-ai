@@ -222,6 +222,8 @@
     }
     .rel:hover { background: var(--panel-hover); border-color: var(--line-strong); border-left-color: var(--rc); }
     .rel.classic { border-style: dashed; border-left-style: solid; }
+    .rel.placeholder { border-style: dashed; border-left-style: solid; opacity: 0.85; }
+    .b-ph { color: var(--amber); border-style: dashed; border-color: color-mix(in srgb, var(--amber) 55%, transparent); }
     .rel-date { font-family: var(--mono); font-size: 0.74rem; color: var(--text-2); padding-top: 0.12rem; white-space: nowrap; }
     .rel-main { min-width: 0; }
     .rel-title { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
@@ -436,13 +438,14 @@
       if (!blank(r.context)) specs.push('<span><span class="k">Ctx:</span>' + esc(r.context) + '</span>');
       if (!blank(r.license)) specs.push('<span><span class="k">License:</span><span class="' + (isOpen(r.weights) ? 'lic-open' : '') + '">' + esc(r.license) + '</span></span>');
       const reg = r._region;
-      return '<article class="rel' + (r._classic ? ' classic' : '') + '" style="--rc:' + regionColor(reg) + '">' +
+      return '<article class="rel' + (r._classic ? ' classic' : '') + (r._ph ? ' placeholder' : '') + '" style="--rc:' + regionColor(reg) + '">' +
         '<div class="rel-date" title="' + esc(fmtLong(r._d, r.date)) + '">' + fmtShort(r._d, r.date) + '</div>' +
         '<div class="rel-main">' +
           '<div class="rel-title">' +
             '<a class="rel-name" href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + esc(r.name) + '</a>' +
             '<span class="lab-tag">' + esc(r.lab) + '</span>' +
             (r._new ? '<span class="b b-new">New</span>' : '') +
+            (r._ph ? '<span class="b b-ph" title="Announced but not released; details fill in when it ships">Placeholder</span>' : '') +
           '</div>' +
           (blank(r.notes) ? '' : '<div class="rel-notes">' + esc(r.notes) + '</div>') +
           (specs.length ? '<div class="specs">' + specs.join('') + '</div>' : '') +
@@ -461,7 +464,7 @@
       const since = new Date(); since.setFullYear(since.getFullYear() - 1);
       const box = document.getElementById('race');
       box.innerHTML = Object.entries(REGIONS).map(([k, v]) => {
-        const rows = releases.filter(r => r._region === k && r._d >= since).sort((a, b) => b._d - a._d);
+        const rows = releases.filter(r => r._region === k && !r._ph && r._d >= since).sort((a, b) => b._d - a._d);
         const open = rows.filter(r => isOpen(r.weights));
         const share = rows.length ? Math.round(1000 * open.length / rows.length) / 10 : 0;
         const labs = new Set(rows.map(r => r.lab)).size;
@@ -622,7 +625,8 @@
           r._d = parseDate(r.date);
           r._classic = r._d < cutoff;
           r._region = regionOf(r.lab);
-          r._new = now - r._d <= NEW_MS && r._d <= now;
+          r._ph = r.license === 'TBD';   // announced placeholder, not shipped yet
+          r._new = !r._ph && now - r._d <= NEW_MS && r._d <= now;
         }
         document.getElementById('t-count').textContent = releases.length;
         document.getElementById('t-seed').textContent = SEEDED;
