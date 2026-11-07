@@ -42,6 +42,14 @@ licence, context and launch-date corrections. Logged in `model_releases_history.
 - Sticky, more compact filter bar, light-mode support and a compact phone layout
 - Fixed the footer's `models_viz_prompt.md` link, which pointed at github.com
 
+### "Telemetry" redesign (from a Google Stitch exploration)
+- Restyled `models.html` and `rumours.html` after a Google Stitch design pass: a shared top bar,
+  Geist / Inter / JetBrains Mono type, monospace labels and squarer badges, region cards with an
+  open-share bar, one filter deck with inline Region / Access / Modality facets and counts, and a
+  sticky "Chronology index" that jumps between months and highlights the one in view. Labelled
+  PARAMS / CTX / LICENSE specs. Stitch's mock data was not used; everything is still rendered from
+  the CSVs.
+
 ### Rumour mill (new page)
 - Added [`rumours.html`](rumours.html) + `rumours.csv`: 20 rumoured or announced-but-unshipped
   models (GPT-6.2, Claude Fable 5.5 / Opus 5.6, Gemini 4 Flash, Grok 4.8, Qwen4, GLM-5.4,
@@ -52,9 +60,24 @@ licence, context and launch-date corrections. Logged in `model_releases_history.
   the week of Nov 16 (reported). The S-1/A says future models may soon cross the RSP "accelerated
   progress" threshold.
 
-### Open questions
-- Kimi K3 is dated `2026-08`, but its Hugging Face repo was created on 2026-06-13. It was left
-  unchanged pending a primary-source date.
+### Review fixes
+- **Re-dated rows from the October data load, which were all dated "Aug 2026":** Kimi K3 → Jul 16
+  (weights Jul 27, 2.8T, 1M context); MiniMax M3 → Jun 1 (licence corrected from MIT to MiniMax
+  Community, 427B); "GLM-5 (5.2/5.3)" split into GLM-5.2 (Jun 16, MIT, 753B) and GLM-5.3 (Aug 25).
+  The vague "Qwen3.8" family row became Qwen3.8-27B (Aug 14). All now link to their exact
+  Hugging Face repos instead of organisation pages.
+- **Hugging Face repo-creation dates aren't release dates:** repos are often created privately
+  first. Corrected Qwen3.8-2.4T (Aug 12), Qwen3.8-Flash-Next (Aug 26) and Mistral Large 4
+  (open weights Oct 29, preview Oct 6) to their announced dates.
+- **Licences named:** Mistral Ecosystem Open-Weight License, StepFun Model License 1.0, Qwen3.8-Max License.
+- **Rumour odds:** `rumours.csv` gains a `market_scope` column. Markets that resolve on "any Qwen
+  model" and the like (12 of 20) are now shown as **Broad market**, with neutral colour and a
+  "market: …" caption, so "Qwen4 96%" can't be read as odds for Qwen4 itself.
+- **Accessibility:** the muted label colour now passes WCAG AA (dark 4.7–5.5:1, light 5.1–5.5:1,
+  up from 4.04:1), and no text is smaller than 11px (there were 337 elements under 10px).
+- **Sticky filter bar:** once pinned, it collapses to one row (160px → 62px) with a
+  "Filters · N active" toggle. The chronology index, month-jump targets and active-month
+  highlight follow its live height, so the index and the bar can no longer overlap.
 
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 

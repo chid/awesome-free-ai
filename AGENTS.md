@@ -43,7 +43,7 @@ A self-updating directory of free AI tools, served as a static web page driven b
 | `model_releases.csv` | Data for the timeline — notable releases, two-year rolling window plus `notable` classics |
 | `model_releases_history.csv` | Append-only seed/change log for `model_releases.csv` |
 | `rumours.html` | Rumoured/announced-but-unshipped models ranked by prediction-market odds, plus filings (e.g. Anthropic's S-1); fetches `rumours.csv` |
-| `rumours.csv` | Data for the rumour page: `item, lab, kind (model/filing), status (Rumoured/Announced/Confirmed), expected, probability, notes, source_label, source_url, checked`. Once something ships, move it to `model_releases.csv` and delete it here. This file is a snapshot, not a log |
+| `rumours.csv` | Data for the rumour page: `item, lab, kind (model/filing), status (Rumoured/Announced/Confirmed), expected, probability, market_scope (blank = the market is for this exact model; otherwise what it resolves on, e.g. "any Qwen model"), notes, source_label, source_url, checked`. Once something ships, move it to `model_releases.csv` and delete it here. This file is a snapshot, not a log |
 | `.github/workflows/pages.yml` | Deploys the site (both pages + CSVs) to GitHub Pages on every push to `main` |
 
 

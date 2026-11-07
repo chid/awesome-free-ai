@@ -64,20 +64,21 @@ date,name,lab,modality,weights,license,params,context,notable,notes,source_url
 2026-05,Gemma 4 (31B),Google,vision,Open,Gemma Terms of Use,1B-31B,128k,,Gemma line's largest open release to date,https://blog.google/technology/developers/
 2026-05,GPT-5.5,OpenAI,text,API-only,—,—,400k,,Mid-2026 flagship step in the GPT-5.x line,https://openai.com/news/
 2026-05,Grok 4.20,xAI,text,API-only,—,—,256k,,Mid-2026 Grok refresh,https://x.ai/news
+2026-06-01,MiniMax M3,MiniMax,text,Open,MiniMax Community,427B MoE,1M,,"Third MiniMax agentic generation: API Jun 1, open weights on Hugging Face Jun 7",https://huggingface.co/MiniMaxAI/MiniMax-M3
+2026-06-16,GLM-5.2,Zhipu AI (Z.ai),text,Open,MIT,753B MoE,1M,,"Z.ai open flagship: coding-first, 1M context; Coding Plan preview Jun 13",https://huggingface.co/zai-org/GLM-5.2
+2026-07-16,Kimi K3,Moonshot AI,text,Open,Kimi K3 License (commercial use restricted),2.8T MoE,1M,,"2.8T-parameter open MoE: app/API launch Jul 16, weights published Jul 27",https://huggingface.co/moonshotai/Kimi-K3
 2026-07-23,FLUX 3,Black Forest Labs,video,Open (announced),TBD for FLUX 3 Dev,—,—,,Multimodal Self-Flow backbone: video with native audio plus image generation; Video/Image in Early Access via API and FLUX 3 Dev open-weight backbone committed for later 2026,https://bfl.ai/blog/flux-3
 2026-07-31,DeepSeek V4,DeepSeek,text,Open,MIT,MoE (dated 0731/0813 checkpoints),256k,,Open flagship line; Pro and Flash variants pushed past 80 percent on SWE-bench Verified,https://huggingface.co/deepseek-ai
-2026-08,GLM-5 (5.2/5.3),Zhipu AI (Z.ai),text,Open,MIT,MoE,256k,,Z.ai's 2026 open flagship line,https://huggingface.co/zai-org
-2026-08,Kimi K3,Moonshot AI,text,Open,Modified MIT,MoE,256k,,Moonshot's 2026 open flagship,https://huggingface.co/moonshotai
-2026-08,MiniMax M3,MiniMax,text,Open,MIT,MoE,200k,,Third generation of MiniMax's token-efficient agentic line,https://huggingface.co/MiniMaxAI
-2026-08,Qwen3.8,Alibaba,text,Open,Apache-2.0,27B+ family,256k,,Aug-2026 Qwen open refresh led by Qwen3.8-27B,https://huggingface.co/Qwen
-2026-08-08,Qwen3.8-2.4T-A95B,Alibaba,text,Open,Custom (see model card),2.4T MoE (95B active),—,,Open-weight release of the Qwen3.8-Max flagship; omits some cloud-only features,https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B
-2026-08-24,Qwen3.8-Flash-Next,Alibaba,text,Open,Qwen Community 1.0,—,—,,Open-weight Flash tier of the Qwen3.8 line (FP8 variant also published); last Qwen text release before Qwen4,https://huggingface.co/Qwen/Qwen3.8-Flash-Next
+2026-08-12,Qwen3.8-2.4T-A95B,Alibaba,text,Open,Qwen3.8-Max License,2.4T MoE (95B active),—,,Open weights of the Qwen3.8-Max flagship (cloud launch Aug 3); omits some cloud-only features,https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B
+2026-08-14,Qwen3.8-27B,Alibaba,text,Open,Apache-2.0,27.8B,256k,,Dense open follow-up to Qwen3.8-Max; the local-GPU tier of the Qwen3.8 line,https://huggingface.co/Qwen/Qwen3.8-27B
+2026-08-25,GLM-5.3,Zhipu AI (Z.ai),text,Open,GLM-5.3 License,753B MoE,—,,GLM-5.2 successor for long agent runs; Flash sibling released alongside,https://huggingface.co/zai-org/GLM-5.3
+2026-08-26,Qwen3.8-Flash-Next,Alibaba,text,Open,Qwen Community 1.0,—,—,,Open weights published alongside the Qwen3.8-Flash API launch,https://huggingface.co/Qwen/Qwen3.8-Flash-Next
 2026-09-03,GPT-6 Astra,OpenAI,text,API-only,—,—,—,,First GPT-6 model; OpenAI's first rated Critical for cyber capability under its Preparedness Framework,https://openai.com/index/gpt-6-astra/
 2026-09-10,DeepSeek-V4.1-Flash,DeepSeek,text,Open,MIT,—,1M,,V4.1 refresh of the Flash tier; a dated 1017 checkpoint followed on Oct 17,https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017
 2026-09-14,Qwen-Image-2.1,Alibaba,image,Open,Qwen Research,—,—,,Qwen image-generation refresh; a few-step Turbo variant followed on Oct 9,https://huggingface.co/Qwen/Qwen-Image-2.1
 2026-09-15,Claude Fable 5.1 + Mythos,Anthropic,text,API-only,—,—,—,,"Anthropic's top tier for coding and knowledge work, launched alongside Mythos",https://www.anthropic.com/news/claude-fable-and-mythos-5-1
 2026-09-18,Qwen3.8-Omni-Flash,Alibaba,omni,API-only,—,—,—,,Next-gen native omni-modal model; agentic delivery focus; API-first,https://qwen.ai/blog?id=qwen3.8-omni-flash
-2026-09-20,Step-5-Preview,StepFun,text,Open,Custom (see model card),—,—,,Preview of StepFun's fifth-generation model with BF16 and NVFP4 weights,https://huggingface.co/stepfun-ai/Step-5-Preview
+2026-09-20,Step-5-Preview,StepFun,text,Open,StepFun Model License 1.0,604B,—,,Preview of StepFun fifth-generation model (604B) with BF16 and NVFP4 weights,https://huggingface.co/stepfun-ai/Step-5-Preview
 2026-09-21,Grok 4.7,xAI,text,API-only,—,—,256k,,Coding and knowledge-work focused Grok update,https://x.ai/news
 2026-09-21,MiMo-V2.6 (Pro/Flash),Xiaomi,text,Open,MIT,—,—,,Xiaomi's open Pro and Flash RL models plus a Qwen-9B distill,https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL
 2026-09-22,Claude Opus 5.5,Anthropic,text,API-only,—,—,200k,,First of the Claude 5.5 family; largest single-day benchmark move of 2026,https://www.anthropic.com/news
@@ -85,7 +86,6 @@ date,name,lab,modality,weights,license,params,context,notable,notes,source_url
 2026-09-22,GPT-6 Sol + Luna,OpenAI,text,API-only,—,—,—,,Expands the GPT-6 family beyond Astra with Sol and Luna tiers,https://openai.com/index/introducing-gpt-6-sol-and-luna/
 2026-09-22,Qwen4 (announced),Alibaba,text,Open (announced),TBD,Max / Plus / Flash / 27B,—,,Named at Apsara (still in training); 27B tier slated for open weights. No Qwen4 weights on Hugging Face as of Nov 7 2026,https://en.wikipedia.org/wiki/Qwen
 2026-09-28,Claude Sonnet 5.5,Anthropic,text,API-only,—,—,—,,30%+ faster than Sonnet 5 at unchanged pricing; strong agentic coding,https://www.anthropic.com/news/claude-sonnet-5-5
-2026-09-30,Mistral Large 4,Mistral AI,text,Open,Custom (see model card),1T MoE (52B active),—,,Trillion-parameter open MoE from Mistral; NVFP4 build followed in mid-October,https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B
 2026-09-30,Gemini 4 Argon,Google,omni,API-only,—,—,—,,"First Gemini 4 model: started with vetted cyber defenders, generally available Oct 13",https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/
 2026-10-07,Claude Haiku 5.5,Anthropic,text,API-only,—,—,—,,Fastest Claude; first Haiku with effort levels,https://www.anthropic.com/news/claude-haiku-5-5
 2026-10-15,FLUX 3 Image Klein,Black Forest Labs,image,Open,FLUX Kommunity License,5.6B,—,,"First downloadable FLUX 3 image weights: native 4K, base and distilled builds",https://huggingface.co/black-forest-labs/flux-3-image-klein
@@ -96,3 +96,4 @@ date,name,lab,modality,weights,license,params,context,notable,notes,source_url
 2026-10-24,Kimi K3.1 Pro,Moonshot AI,text,Open,Kimi K3.1 Pro License,—,1M,,API launch Oct 24; open weights followed on Hugging Face Nov 2. Tops Nov 2026 Chinese-model rankings,https://huggingface.co/moonshotai/Kimi-K3.1-Pro
 2026-10-26,GPT-6.1 Terra,OpenAI,text,API-only,—,—,1.05M,,GPT-6.1 tier with 128k max output; staged rollout to API and ChatGPT Work/Codex,https://openai.com/index/introducing-gpt-6-1-terra/
 2026-10-28,Gemini 4 Carbon,Google,omni,API-only,—,—,—,,Google's strongest model for cybersecurity and long-horizon work; limited preview for cyber defenders,https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/
+2026-10-29,Mistral Large 4,Mistral AI,text,Open,Mistral Ecosystem Open-Weight License,1T MoE (52B active),—,,"Trillion-parameter open MoE: preview Oct 6, open weights Oct 29",https://huggingface.co/mistralai/Mistral-Large-4-1T-A52B

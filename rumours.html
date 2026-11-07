@@ -4,159 +4,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Model Rumour Mill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* Same "Telemetry" system as models.html (adapted from a Google Stitch exploration). */
     :root {
-      --bg: #0b0d13;
-      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.09) 0%, rgba(15, 17, 23, 0) 75%);
-      --grid-line: rgba(255, 255, 255, 0.015);
-      --surface: rgba(26, 29, 41, 0.72);
-      --surface-solid: #151824;
-      --surface-hover: rgba(34, 38, 58, 0.9);
-      --track: #252a40;
-      --border: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(167, 139, 250, 0.35);
-      --accent: #7c3aed;
-      --accent2: #a78bfa;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --text-subtle: #64748b;
-      --green: #10b981;
-      --yellow: #f59e0b;
-      --us: #60a5fa;
-      --cn: #f87171;
-      --eu: #fbbf24;
-      --other: #94a3b8;
-      --radius: 12px;
-      --radius-lg: 16px;
-      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color-scheme: dark;
+      --bg: #0a0e16;
+      --bg-glow: radial-gradient(1200px 500px at 15% -10%, rgba(245, 158, 11, 0.08), transparent 60%),
+                 radial-gradient(900px 500px at 100% 100%, rgba(59, 130, 246, 0.06), transparent 60%);
+      --panel: #0f1520; --panel-2: #131a27; --panel-hover: #161e2d; --track: #1e2636;
+      --line: rgba(148, 163, 184, 0.13); --line-strong: rgba(148, 163, 184, 0.24);
+      --text: #e6ebf3; --text-2: #a3aec2; --text-3: #7d899e;
+      --primary: #3b82f6; --primary-soft: rgba(59, 130, 246, 0.14);
+      --green: #22c55e; --green-soft: rgba(34, 197, 94, 0.12);
+      --amber: #f59e0b; --amber-soft: rgba(245, 158, 11, 0.12);
+      --us: #7aa2ff; --cn: #f87171; --eu: #f5b84b; --other: #94a3b8;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --display: 'Geist', 'Inter', -apple-system, system-ui, sans-serif;
+      --r: 6px; --r-lg: 10px;
     }
     @media (prefers-color-scheme: light) {
       :root:not([data-theme="dark"]) {
-        --bg: #f7f7fb;
-        --bg-gradient: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, rgba(247, 247, 251, 0) 70%);
-        --grid-line: rgba(15, 23, 42, 0.03);
-        --surface: rgba(255, 255, 255, 0.88);
-        --surface-solid: #ffffff;
-        --surface-hover: #ffffff;
-        --track: #e5e7eb;
-        --border: rgba(15, 23, 42, 0.1);
-        --accent2: #6d28d9;
-        --text: #0f172a;
-        --text-muted: #475569;
-        --text-subtle: #64748b;
-        --green: #047857;
-        --yellow: #b45309;
+        color-scheme: light;
+        --bg: #f6f7fa; --bg-glow: radial-gradient(1200px 500px at 15% -10%, rgba(245, 158, 11, 0.07), transparent 60%);
+        --panel: #ffffff; --panel-2: #f8fafc; --panel-hover: #ffffff; --track: #e5e7eb;
+        --line: rgba(15, 23, 42, 0.10); --line-strong: rgba(15, 23, 42, 0.20);
+        --text: #0f172a; --text-2: #475569; --text-3: #5c6a7e;
+        --primary: #2563eb; --primary-soft: rgba(37, 99, 235, 0.10);
+        --green: #15803d; --green-soft: rgba(21, 128, 61, 0.10);
+        --amber: #b45309; --amber-soft: rgba(180, 83, 9, 0.10);
         --us: #2563eb; --cn: #dc2626; --eu: #b45309; --other: #64748b;
       }
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', system-ui, sans-serif;
-      background-color: var(--bg); background-image: var(--bg-gradient);
-      background-repeat: no-repeat; background-attachment: fixed;
-      color: var(--text); min-height: 100vh; padding: 2.5rem 1rem 5rem;
-      -webkit-font-smoothing: antialiased;
-    }
-    body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-size: 40px 40px;
-      background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-                        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    }
-    .container { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+    body { font-family: var(--sans); background: var(--bg); background-image: var(--bg-glow); background-attachment: fixed;
+           color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; }
 
-    header { text-align: center; margin-bottom: 1.75rem; }
-    .status-badge {
-      display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.85rem;
-      background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.28);
-      border-radius: 999px; font-size: 0.76rem; font-weight: 600; color: var(--yellow); margin-bottom: 1rem;
-    }
-    h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
-    h1 .grad { background: linear-gradient(120deg, var(--yellow), var(--cn)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .subtitle { color: var(--text-muted); max-width: 640px; margin: 0 auto; line-height: 1.55; }
-    .nav { margin-top: 1rem; display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
-    .nav a { color: var(--text-subtle); font-size: 0.85rem; text-decoration: none; }
-    .nav a:hover { color: var(--accent2); }
+    .topbar { position: sticky; top: 0; z-index: 20; height: 48px; display: flex; align-items: center; gap: 1.25rem; padding: 0 1.25rem;
+              background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .brand { font-family: var(--mono); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .brand span { color: var(--text-3); }
+    .sync { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2);
+            border: 1px solid var(--line); border-radius: var(--r); padding: 0.22rem 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    .sync i { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+    .topnav { margin-left: auto; display: flex; gap: 0.25rem; }
+    .topnav a { text-decoration: none; font-size: 0.8rem; color: var(--text-2); padding: 0.4rem 0.7rem; border-radius: var(--r); white-space: nowrap; }
+    .topnav a:hover { color: var(--text); background: var(--panel-2); }
+    .topnav a.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--amber); border-radius: 0; }
 
-    .warn {
-      font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; text-align: center;
-      border: 1px dashed var(--border); border-radius: var(--radius); padding: 0.7rem 1rem; margin-bottom: 1.25rem;
-    }
+    .container { max-width: 1000px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+    .crumbs { font-family: var(--mono); font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .crumbs b { color: var(--text-2); font-weight: 600; }
+    h1 { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; margin: 0.5rem 0 0.4rem; }
+    .subtitle { color: var(--text-2); max-width: 640px; line-height: 1.55; }
+    .warn { font-family: var(--mono); font-size: 0.72rem; color: var(--text-2); line-height: 1.55; background: var(--amber-soft);
+            border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: var(--r); padding: 0.6rem 0.8rem; margin: 1.25rem 0; }
+    .warn b { color: var(--amber); }
 
-    /* Spotlight (filings, not models) */
-    .spot {
-      background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--us);
-      border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; margin-bottom: 1.5rem;
-    }
-    .spot-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--us); }
-    .spot h2 { font-size: 1.25rem; margin: 0.25rem 0 0.5rem; }
-    .spot p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
-    .spot-facts { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 0.8rem 0 0.4rem; }
-    .spot-facts div { font-size: 0.72rem; color: var(--text-subtle); text-transform: uppercase; letter-spacing: 0.06em; }
-    .spot-facts b { display: block; font-size: 0.98rem; color: var(--text); text-transform: none; letter-spacing: 0; }
+    .spot { background: var(--panel); border: 1px solid var(--line); border-top: 2px solid var(--rc, var(--us)); border-radius: var(--r-lg); padding: 1rem 1.15rem; margin-bottom: 1.25rem; }
+    .spot-kicker { display: inline-block; font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+                   color: var(--rc, var(--us)); border: 1px solid var(--rc, var(--us)); border-radius: 4px; padding: 0.14rem 0.45rem; background: color-mix(in srgb, var(--rc, var(--us)) 12%, transparent); }
+    .spot h2 { font-family: var(--display); font-size: 1.25rem; font-weight: 600; margin: 0.55rem 0 0.2rem; }
+    .spot p { font-size: 0.85rem; color: var(--text-2); line-height: 1.55; }
+    .spot-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin: 0.8rem 0; padding: 0.7rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .spot-facts div { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+    .spot-facts b { display: block; font-size: 0.92rem; font-weight: 600; color: var(--text); text-transform: none; letter-spacing: 0; margin-top: 0.15rem; }
 
-    /* Controls */
-    .controls {
-      background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius-lg);
-      padding: 0.8rem 1rem; display: flex; gap: 0.5rem 1.25rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem;
-    }
+    .controls { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 0.65rem 0.85rem;
+                display: flex; gap: 0.4rem 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
     .chip-group { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
-    .chip-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-subtle); margin-right: 0.2rem; }
-    .chip {
-      padding: 0.26rem 0.7rem; border-radius: 999px; font-size: 0.76rem; font-weight: 600; font-family: inherit;
-      background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: var(--transition);
-    }
-    .chip:hover { color: var(--text); border-color: var(--border-hover); }
-    .chip.active { background: rgba(124, 58, 237, 0.16); border-color: var(--accent); color: var(--accent2); }
+    .chip-label { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 0.15rem; }
+    .chip { font-family: var(--mono); font-size: 0.7rem; color: var(--text-2); background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+            padding: 0.2rem 0.5rem; cursor: pointer; transition: all .12s; }
+    .chip:hover { color: var(--text); border-color: var(--line-strong); }
+    .chip.active { color: var(--text); background: var(--primary-soft); border-color: var(--primary); }
 
-    /* Rumour rows */
-    .rum {
-      display: grid; grid-template-columns: 1fr 170px; gap: 1rem; align-items: center;
-      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--rc);
-      border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 0.45rem; transition: var(--transition);
-    }
-    .rum:hover { background: var(--surface-hover); border-color: var(--border-hover); border-left-color: var(--rc); }
-    .rum-name { font-weight: 700; font-size: 0.95rem; }
-    .rum-lab { font-size: 0.78rem; color: var(--text-muted); margin-left: 0.35rem; }
-    .rum-notes { font-size: 0.8rem; color: var(--text-subtle); margin-top: 0.22rem; line-height: 1.45; }
-    .rum-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
-    .rum-meta a { color: var(--text-muted); }
-    .pill { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.66rem; font-weight: 700; border: 1px solid; }
-    .pill-Rumoured { color: var(--text-muted); border-color: var(--border); }
-    .pill-Announced { color: var(--yellow); border-color: rgba(245, 158, 11, 0.4); }
-    .pill-Confirmed { color: var(--green); border-color: rgba(16, 185, 129, 0.4); }
-    .pill-region { color: var(--rc); border-color: var(--rc); }
+    .rum { display: grid; grid-template-columns: 1fr 180px; gap: 1rem; align-items: center; background: var(--panel); border: 1px solid var(--line);
+           border-left: 3px solid var(--rc); border-radius: var(--r); padding: 0.75rem 0.9rem; margin-bottom: 0.5rem; transition: background .12s, border-color .12s; }
+    .rum:hover { background: var(--panel-hover); border-color: var(--line-strong); border-left-color: var(--rc); }
+    .rum-name { font-family: var(--display); font-weight: 600; font-size: 0.98rem; letter-spacing: -0.01em; }
+    .rum-lab { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2); border: 1px solid var(--line); border-radius: 4px; padding: 0.08rem 0.4rem; margin-left: 0.45rem; vertical-align: 2px; }
+    .rum-notes { font-size: 0.8rem; color: var(--text-2); margin-top: 0.3rem; line-height: 1.45; }
+    .rum-meta { margin-top: 0.45rem; display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; font-family: var(--mono); font-size: 0.6875rem; }
+    .rum-meta a { color: var(--text-3); margin-left: 0.25rem; }
+    .pill { font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--line-strong);
+            color: var(--text-2); border-radius: 4px; padding: 0.14rem 0.42rem; }
+    .pill-Announced { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); background: var(--amber-soft); }
+    .pill-Confirmed { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); background: var(--green-soft); }
+    .pill-region { color: var(--rc); border-color: color-mix(in srgb, var(--rc) 55%, transparent); }
 
     .prob { text-align: right; }
-    .prob-num { font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-    .prob-num small { font-size: 0.7rem; font-weight: 600; color: var(--text-subtle); }
-    .prob-bar { height: 6px; border-radius: 999px; background: var(--track); overflow: hidden; margin-top: 0.3rem; }
-    .prob-bar i { display: block; height: 100%; border-radius: 999px; }
-    .prob-when { font-size: 0.72rem; color: var(--text-subtle); margin-top: 0.3rem; }
-    .prob-na { font-size: 0.8rem; color: var(--text-subtle); }
+    .prob-num { font-family: var(--mono); font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .prob-num small { font-size: 0.6875rem; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-left: 0.3rem; }
+    .prob-bar { height: 3px; border-radius: 2px; background: var(--track); overflow: hidden; margin-top: 0.35rem; }
+    .prob-bar i { display: block; height: 100%; }
+    .prob-bar.broad i { opacity: 0.55; }
+    .prob-scope { font-family: var(--mono); font-size: 0.6875rem; color: var(--amber); margin-top: 0.3rem; }
+    .pill-broad { color: var(--text-2); border-style: dashed; }
+    .prob-when { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); margin-top: 0.35rem; }
+    .prob-na { font-family: var(--mono); font-size: 0.72rem; color: var(--text-3); text-transform: uppercase; }
 
-    #error { display: none; text-align: center; padding: 2rem; color: var(--yellow); border: 1px solid rgba(245,158,11,.3); border-radius: var(--radius-lg); }
-    footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); color: var(--text-subtle); font-size: 0.8rem; line-height: 1.7; text-align: center; }
-    footer a { color: var(--text-muted); }
+    #error { display: none; padding: 1.5rem; color: var(--amber); border: 1px solid var(--amber); border-radius: var(--r-lg); background: var(--amber-soft); }
+    footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--text-3); font-size: 0.78rem; line-height: 1.7; }
+    footer a { color: var(--text-2); }
+    footer code { font-family: var(--mono); font-size: 0.74rem; }
 
-    @media (max-width: 640px) {
-      h1 { font-size: 1.7rem; }
+    @media (max-width: 720px) {
+      .container { padding: 1.25rem 1rem 3rem; }
+      .topbar { padding: 0 1rem; gap: 0.6rem; }
+      .sync, .brand span { display: none; }
+      .topnav a { padding: 0.4rem 0.45rem; font-size: 0.74rem; }
+      h1 { font-size: 1.5rem; }
+      .spot-facts { grid-template-columns: 1fr 1fr; }
       .rum { grid-template-columns: 1fr; gap: 0.5rem; }
       .prob { text-align: left; }
     }
   </style>
 </head>
 <body>
+  <nav class="topbar">
+    <div class="brand">Telemetry <span>// Rumour mill</span></div>
+    <div class="sync"><i></i><span id="badge">Loading…</span></div>
+    <div class="topnav">
+      <a href="models.html">Timeline</a>
+      <a href="index.html">Resources</a>
+      <a href="rumours.html" class="on">Rumour mill</a>
+    </div>
+  </nav>
   <div class="container">
-    <header>
-      <div class="status-badge" id="badge">Loading rumours…</div>
-      <h1>Model <span class="grad">Rumour Mill</span></h1>
-      <p class="subtitle">What's expected next from the frontier labs and China's open-weight challengers, ranked by prediction-market odds. Nothing here is confirmed until it lands on the timeline.</p>
-      <div class="nav">
-        <a href="models.html">← Release timeline</a>
-        <a href="index.html">Resources directory</a>
-      </div>
-    </header>
+    <div class="crumbs">Awesome Free AI / Models / <b>Rumour mill</b></div>
+    <h1>What's next: model rumours</h1>
+    <p class="subtitle">Expected releases from the frontier labs and China's open-weight challengers, ranked by prediction-market odds. Nothing here is confirmed until it lands on the <a href="models.html">timeline</a>.</p>
 
     <div class="warn">
       Rumours come from prediction markets, leaks and secondary reporting. Probabilities are a
@@ -210,13 +192,13 @@
     };
     const regionOf = lab => Object.keys(REGIONS).find(k => REGIONS[k].labs.includes(lab)) || 'Other';
     const color = k => REGIONS[k] ? REGIONS[k].color : 'var(--other)';
-    const probColor = p => p >= 75 ? 'var(--green)' : p >= 50 ? 'var(--yellow)' : 'var(--text-subtle)';
+    const probColor = p => p >= 75 ? 'var(--green)' : p >= 50 ? 'var(--amber)' : 'var(--text-3)';
 
     const state = { region: 'All', status: 'All' };
     let items = [];
 
     function spotlight(r) {
-      return '<section class="spot" style="--us:' + color(r._region) + '">' +
+      return '<section class="spot" style="--rc:' + color(r._region) + '">' +
         '<div class="spot-kicker">Filing · not a model</div>' +
         '<h2>' + esc(r.item) + '</h2>' +
         '<div class="spot-facts">' +
@@ -232,6 +214,9 @@
 
     function row(r) {
       const p = r.probability === '' ? null : Number(r.probability);
+      // A broad market ("any Qwen model") is not odds for this specific model: show it neutral and labelled.
+      const broad = !!r.market_scope;
+      const c = broad ? 'var(--text-2)' : probColor(p);
       return '<div class="rum" style="--rc:' + color(r._region) + '">' +
         '<div>' +
           '<span class="rum-name">' + esc(r.item) + '</span><span class="rum-lab">' + esc(r.lab) + '</span>' +
@@ -239,13 +224,15 @@
           '<div class="rum-meta">' +
             '<span class="pill pill-' + esc(r.status) + '">' + esc(r.status) + '</span>' +
             '<span class="pill pill-region">' + (REGIONS[r._region] ? REGIONS[r._region].label : 'Other') + '</span>' +
+            (broad ? '<span class="pill pill-broad" title="The market resolves on ' + esc(r.market_scope) + ', not only this model">Broad market</span>' : '') +
             '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + esc(r.source_label) + '</a>' +
           '</div>' +
         '</div>' +
         '<div class="prob">' +
           (p === null ? '<div class="prob-na">No market</div>'
-            : '<div class="prob-num" style="color:' + probColor(p) + '">' + p + '%<small> by end of month</small></div>' +
-              '<div class="prob-bar"><i style="width:' + p + '%;background:' + probColor(p) + '"></i></div>') +
+            : '<div class="prob-num" style="color:' + c + '">' + p + '%<small> by end of month</small></div>' +
+              '<div class="prob-bar' + (broad ? ' broad' : '') + '"><i style="width:' + p + '%;background:' + c + '"></i></div>' +
+              (broad ? '<div class="prob-scope">market: ' + esc(r.market_scope) + '</div>' : '')) +
           '<div class="prob-when">' + esc(r.expected) + '</div>' +
         '</div>' +
       '</div>';
@@ -259,7 +246,7 @@
         .filter(r => state.status === 'All' || r.status === state.status)
         .sort((a, b) => (Number(b.probability) || -1) - (Number(a.probability) || -1));
       document.getElementById('list').innerHTML = list.length ? list.map(row).join('')
-        : '<p style="text-align:center;color:var(--text-subtle);padding:2rem">Nothing matches.</p>';
+        : '<p style="text-align:center;color:var(--text-3);padding:2rem;font-family:var(--mono)">Nothing matches.</p>';
     }
 
     function chips(id, key, values, label) {
