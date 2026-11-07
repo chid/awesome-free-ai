@@ -60,6 +60,19 @@ licence, context and launch-date corrections. Logged in `model_releases_history.
   the week of Nov 16 (reported). The S-1/A says future models may soon cross the RSP "accelerated
   progress" threshold.
 
+### Model detail drawer and site name
+- Click (or press Enter on) any card in `models.html` to open a side panel. It shows:
+  - the full specs
+  - what the access status means
+  - source links
+  - that model's rows from `model_releases_history.csv`
+  - the lab's other releases, each of which opens in the same panel
+- The panel's URL (`#model=<name>`) can be shared and opens straight to that model. Escape or a click outside closes it.
+  The model name on each card still links straight to its source.
+- This was the one worthwhile follow-up from the Stitch exploration. Its other suggestion, a benchmark
+  scatterplot, was skipped because we don't track benchmark scores.
+- The top bar on both pages now reads **Awesome Free AI** (it was Stitch's "Telemetry") and links home.
+
 ### Qwen4 placeholders
 - The single "Qwen4 (announced)" row is now four placeholder rows, one per announced tier:
   Qwen4-Max, Qwen4-Plus and Qwen4-Flash (expected API-only) and Qwen4-27B (the only tier

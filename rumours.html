@@ -48,6 +48,7 @@
               background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
     .brand { font-family: var(--mono); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
     .brand span { color: var(--text-3); }
+    a.brand { text-decoration: none; color: inherit; }
     .sync { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2);
             border: 1px solid var(--line); border-radius: var(--r); padding: 0.22rem 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
     .sync i { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
@@ -127,7 +128,7 @@
 </head>
 <body>
   <nav class="topbar">
-    <div class="brand">Telemetry <span>// Rumour mill</span></div>
+    <a class="brand" href="index.html">Awesome Free AI <span>// Rumour mill</span></a>
     <div class="sync"><i></i><span id="badge">Loading…</span></div>
     <div class="topnav">
       <a href="models.html">Timeline</a>

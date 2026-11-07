@@ -80,6 +80,7 @@
     }
     .brand { font-family: var(--mono); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
     .brand span { color: var(--text-3); }
+    a.brand { text-decoration: none; }
     .sync {
       display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--mono); font-size: 0.6875rem;
       color: var(--text-2); border: 1px solid var(--line); border-radius: var(--r); padding: 0.22rem 0.55rem;
@@ -248,6 +249,60 @@
     .empty { text-align: center; padding: 3rem 1rem; color: var(--text-3); border: 1px dashed var(--line); border-radius: var(--r-lg); font-family: var(--mono); font-size: 0.8rem; }
     #error { display: none; padding: 1.5rem; color: var(--amber); border: 1px solid var(--amber); border-radius: var(--r-lg); background: var(--amber-soft); line-height: 1.6; margin-bottom: 1rem; }
 
+    /* Detail drawer (click a release card) */
+    .rel { cursor: pointer; }
+    .rel:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .scrim { position: fixed; inset: 0; z-index: 40; background: rgba(4, 7, 12, 0.55); opacity: 0; pointer-events: none; transition: opacity .18s; }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(460px, 100vw);
+      background: var(--panel); border-left: 1px solid var(--line-strong); box-shadow: -20px 0 50px rgba(0,0,0,.35);
+      transform: translateX(100%); transition: transform .22s ease; display: flex; flex-direction: column; visibility: hidden;
+    }
+    .drawer.show { transform: none; visibility: visible; }
+    .drawer-head { padding: 1rem 1.15rem 0.9rem; border-bottom: 1px solid var(--line); border-top: 3px solid var(--rc, var(--primary)); }
+    .drawer-top { display: flex; align-items: center; gap: 0.5rem; }
+    .drawer-top .crumb { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .drawer-top .acts { margin-left: auto; display: flex; gap: 0.35rem; }
+    .icon-btn { font: inherit; font-family: var(--mono); font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-2);
+      background: transparent; border: 1px solid var(--line); border-radius: var(--r); padding: 0.3rem 0.55rem; cursor: pointer; }
+    .icon-btn:hover { color: var(--text); border-color: var(--line-strong); }
+    .drawer h2 { font-family: var(--display); font-size: 1.35rem; letter-spacing: -0.02em; margin-top: 0.6rem; line-height: 1.2; }
+    .drawer .sub { color: var(--text-2); font-size: 0.82rem; margin-top: 0.25rem; }
+    .drawer .badges { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.6rem; }
+    .drawer-body { overflow-y: auto; padding: 1rem 1.15rem 2rem; display: grid; gap: 1.15rem; overscroll-behavior: contain; }
+    .drawer h3 { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.45rem; }
+    .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+    .kv div { background: var(--panel-2); padding: 0.55rem 0.7rem; min-width: 0; }
+    .kv .wide { grid-column: 1 / -1; }
+    .kv dt { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+    .kv dd { font-family: var(--mono); font-size: 0.8rem; margin-top: 0.15rem; overflow-wrap: anywhere; }
+    .kv dd.ok { color: var(--green); }
+    .kv dd.tbd { color: var(--amber); }
+    .d-notes { font-size: 0.86rem; line-height: 1.55; color: var(--text); }
+    .ph-note { font-size: 0.8rem; line-height: 1.5; color: var(--text-2); border: 1px dashed color-mix(in srgb, var(--amber) 55%, transparent);
+      background: var(--amber-soft); border-radius: var(--r); padding: 0.6rem 0.75rem; }
+    .d-links { display: grid; gap: 0.35rem; }
+    .d-links a { display: flex; justify-content: space-between; gap: 0.75rem; text-decoration: none; font-size: 0.82rem; padding: 0.5rem 0.7rem;
+      border: 1px solid var(--line); border-radius: var(--r); background: var(--panel-2); }
+    .d-links a:hover { border-color: var(--line-strong); color: var(--primary); }
+    .d-links a span { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hist { list-style: none; display: grid; gap: 0.4rem; }
+    .hist li { display: grid; grid-template-columns: 78px 52px 1fr; gap: 0.5rem; font-size: 0.75rem; color: var(--text-2); line-height: 1.45; }
+    .hist time, .hist b { font-family: var(--mono); font-size: 0.6875rem; }
+    .hist b { color: var(--text); text-transform: uppercase; font-weight: 600; }
+    .hist .n { overflow-wrap: anywhere; }
+    .sib { list-style: none; display: grid; gap: 0.25rem; }
+    .sib button { width: 100%; display: flex; gap: 0.6rem; align-items: baseline; text-align: left; font: inherit; font-size: 0.82rem; color: var(--text);
+      background: transparent; border: 0; border-radius: var(--r); padding: 0.35rem 0.4rem; cursor: pointer; }
+    .sib button:hover { background: var(--panel-2); color: var(--primary); }
+    .sib time { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); width: 4.6rem; flex: none; }
+    .sib .w { margin-left: auto; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); }
+    .sib .w.ok { color: var(--green); }
+    .muted { color: var(--text-3); font-size: 0.78rem; }
+    html.drawer-open { overflow: hidden; }
+    @media (prefers-reduced-motion: reduce) { .drawer, .scrim { transition: none; } }
+
     footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--text-3); font-size: 0.78rem; line-height: 1.7; }
     footer a { color: var(--text-2); }
     footer code { font-family: var(--mono); font-size: 0.74rem; }
@@ -276,7 +331,7 @@
 </head>
 <body>
   <nav class="topbar">
-    <div class="brand">Telemetry <span>// Model releases</span></div>
+    <a class="brand" href="index.html">Awesome Free AI <span>// Model releases</span></a>
     <div class="sync"><i></i><span id="sync">Loading…</span></div>
     <div class="topnav">
       <a href="models.html" class="on">Timeline</a>
@@ -350,6 +405,23 @@
       </p>
     </footer>
   </main>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="d-title" aria-hidden="true">
+    <div class="drawer-head" id="d-head">
+      <div class="drawer-top">
+        <span class="crumb" id="d-crumb"></span>
+        <div class="acts">
+          <button class="icon-btn" id="d-copy" type="button">Copy link</button>
+          <button class="icon-btn" id="d-close" type="button" aria-label="Close details">Close ✕</button>
+        </div>
+      </div>
+      <h2 id="d-title"></h2>
+      <div class="sub" id="d-sub"></div>
+      <div class="badges" id="d-badges"></div>
+    </div>
+    <div class="drawer-body" id="d-body"></div>
+  </aside>
 
   <script>
     'use strict';
@@ -438,7 +510,7 @@
       if (!blank(r.context)) specs.push('<span><span class="k">Ctx:</span>' + esc(r.context) + '</span>');
       if (!blank(r.license)) specs.push('<span><span class="k">License:</span><span class="' + (isOpen(r.weights) ? 'lic-open' : '') + '">' + esc(r.license) + '</span></span>');
       const reg = r._region;
-      return '<article class="rel' + (r._classic ? ' classic' : '') + (r._ph ? ' placeholder' : '') + '" style="--rc:' + regionColor(reg) + '">' +
+      return '<article class="rel' + (r._classic ? ' classic' : '') + (r._ph ? ' placeholder' : '') + '" style="--rc:' + regionColor(reg) + '" data-i="' + r._i + '" tabindex="0" aria-label="' + esc(r.name) + ' details">' +
         '<div class="rel-date" title="' + esc(fmtLong(r._d, r.date)) + '">' + fmtShort(r._d, r.date) + '</div>' +
         '<div class="rel-main">' +
           '<div class="rel-title">' +
@@ -613,6 +685,135 @@
       check();
     }
 
+    // --- Detail drawer: click (or Enter on) a card to see specs, sources, change log and the lab's other releases ---
+    let histCache = null, lastFocus = null, current = null;
+    const loadHistory = () => histCache || (histCache = fetch('model_releases_history.csv')
+      .then(r => r.ok ? r.text() : '').then(t => t ? parseCSV(t) : []).catch(() => []));
+    const host = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+    const hfRepo = u => { const m = /huggingface\.co\/([^/?#]+\/[^/?#]+)/.exec(u || ''); return m ? m[1] : ''; };
+    const WEIGHT_TEXT = {
+      'Open': 'Weights are downloadable — you can run it yourself.',
+      'Open (announced)': 'Open weights promised but not published yet.',
+      'API-only': 'Available through the lab\'s app or API only; no weights.',
+      'Private': 'Not publicly available.',
+    };
+
+    function openDrawer(r, push = true) {
+      current = r;
+      const reg = r._region;
+      const drawer = document.getElementById('drawer');
+      document.getElementById('d-head').style.setProperty('--rc', regionColor(reg));
+      document.getElementById('d-crumb').textContent = (REGIONS[reg] ? REGIONS[reg].name : 'Other') + ' / ' + r.lab;
+      document.getElementById('d-title').textContent = r.name;
+      document.getElementById('d-sub').textContent = (r._ph ? 'Announced ' : 'Released ') + fmtLong(r._d, r.date);
+      document.getElementById('d-badges').innerHTML = weightBadge(r.weights) +
+        (r._ph ? '<span class="b b-ph">Placeholder</span>' : '') + (r._new ? '<span class="b b-new">New</span>' : '') +
+        '<span class="b b-region" style="--rc:' + regionColor(reg) + '">' + regionCode(reg) + '</span>' +
+        '<span class="b">' + esc(r.modality) + '</span>' + (r._classic ? '<span class="b b-classic">Classic</span>' : '');
+
+      const val = v => blank(v) ? '—' : esc(v);
+      const cls = v => v === 'TBD' ? ' class="tbd"' : '';
+      const repo = hfRepo(r.source_url);
+      const sibs = releases.filter(x => x.lab === r.lab && x !== r).sort((a, b) => b._d - a._d).slice(0, 6);
+      document.getElementById('d-body').innerHTML =
+        (r._ph ? '<div class="ph-note"><b>Placeholder.</b> This model has been announced but hasn\'t shipped. The date is the announcement; specs and licence fill in when it\'s released.</div>' : '') +
+        (blank(r.notes) ? '' : '<section><h3>Notes</h3><p class="d-notes">' + esc(r.notes) + '</p></section>') +
+        '<section><h3>Specs</h3><dl class="kv">' +
+          '<div><dt>Parameters</dt><dd' + cls(r.params) + '>' + val(r.params) + '</dd></div>' +
+          '<div><dt>Context</dt><dd' + cls(r.context) + '>' + val(r.context) + '</dd></div>' +
+          '<div class="wide"><dt>Licence</dt><dd class="' + (r.license === 'TBD' ? 'tbd' : isOpen(r.weights) && !blank(r.license) ? 'ok' : '') + '">' + val(r.license) + '</dd></div>' +
+          '<div class="wide"><dt>Access</dt><dd style="font-family:var(--sans)">' + (r._ph && r.weights !== 'Open (announced)' ? 'Expected: ' : '') + esc(WEIGHT_TEXT[r.weights] || r.weights) + '</dd></div>' +
+        '</dl></section>' +
+        '<section><h3>Sources</h3><div class="d-links">' +
+          (r.source_url ? '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + (repo ? 'Model page on Hugging Face' : 'Primary source') + ' ↗<span>' + esc(repo || host(r.source_url)) + '</span></a>' : '') +
+          (!repo && isOpen(r.weights) ? '<a href="https://huggingface.co/models?search=' + encodeURIComponent(r.name.replace(/\s*\(.*\)$/, '')) + '" target="_blank" rel="noopener">Search Hugging Face ↗<span>huggingface.co</span></a>' : '') +
+        '</div></section>' +
+        '<section><h3>Change log</h3><div id="d-hist" class="muted">Loading…</div></section>' +
+        (sibs.length ? '<section><h3>More from ' + esc(r.lab) + '</h3><ul class="sib">' + sibs.map(x =>
+          '<li><button type="button" data-i="' + x._i + '"><time>' + fmtShort(x._d, x.date) + ' ' + x._d.getFullYear() + '</time>' + esc(x.name) +
+          '<span class="w' + (x.weights === 'Open' ? ' ok' : '') + '">' + esc(x._ph ? 'Placeholder' : WEIGHT_LABEL[x.weights] || x.weights) + '</span></button></li>').join('') +
+        '</ul></section>' : '');
+
+      loadHistory().then(rows => {
+        if (current !== r) return;
+        const mine = rows.filter(h => h.name === r.name).sort((a, b) => b.date.localeCompare(a.date));
+        const box = document.getElementById('d-hist');
+        box.className = mine.length ? '' : 'muted';
+        box.innerHTML = mine.length
+          ? '<ul class="hist">' + mine.map(h => '<li><time>' + esc(h.date) + '</time><b>' + esc(h.action) + '</b><span class="n">' + esc(h.notes) + '</span></li>').join('') + '</ul>'
+          : 'No entries in <code>model_releases_history.csv</code> under this exact name.';
+      });
+
+      document.getElementById('d-body').scrollTop = 0;
+      if (!drawer.classList.contains('show')) {
+        lastFocus = document.activeElement;
+        drawer.classList.add('show'); drawer.setAttribute('aria-hidden', 'false');
+        document.getElementById('scrim').classList.add('show');
+        document.documentElement.classList.add('drawer-open');
+      }
+      document.getElementById('d-close').focus({ preventScroll: true });
+      if (push) setHash('#model=' + encodeURIComponent(r.name));
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById('drawer');
+      if (!drawer.classList.contains('show')) return;
+      current = null;
+      drawer.classList.remove('show'); drawer.setAttribute('aria-hidden', 'true');
+      document.getElementById('scrim').classList.remove('show');
+      document.documentElement.classList.remove('drawer-open');
+      setHash('');
+      if (lastFocus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+    }
+    const setHash = hash => { try { window.history.replaceState(null, '', location.pathname + location.search + hash); } catch {} };
+
+    function setupDrawer() {
+      const tl = document.getElementById('timeline');
+      const fromEl = el => releases[Number(el.dataset.i)];
+      tl.addEventListener('click', e => {
+        if (e.target.closest('a')) return;            // the model name still links straight to its source
+        const card = e.target.closest('.rel');
+        if (card) openDrawer(fromEl(card));
+      });
+      tl.addEventListener('keydown', e => {
+        const card = e.target.closest('.rel');
+        if (card && e.target === card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openDrawer(fromEl(card)); }
+      });
+      document.getElementById('d-body').addEventListener('click', e => {
+        const b = e.target.closest('.sib button');
+        if (b) openDrawer(fromEl(b));
+      });
+      document.getElementById('scrim').onclick = closeDrawer;
+      document.getElementById('d-close').onclick = closeDrawer;
+      const copy = document.getElementById('d-copy');
+      copy.onclick = () => {
+        const url = location.href;
+        const done = ok => { copy.textContent = ok ? 'Copied' : 'Copy failed'; setTimeout(() => copy.textContent = 'Copy link', 1400); };
+        if (navigator.clipboard) navigator.clipboard.writeText(url).then(() => done(true), () => done(false)); else done(false);
+      };
+      document.addEventListener('keydown', e => {
+        const drawer = document.getElementById('drawer');
+        if (!drawer.classList.contains('show')) return;
+        if (e.key === 'Escape') { e.preventDefault(); closeDrawer(); return; }
+        if (e.key === 'Tab') {                         // keep focus inside the open dialog
+          const f = [...drawer.querySelectorAll('a[href], button')].filter(el => el.offsetParent !== null);
+          if (!f.length) return;
+          const first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
+      const fromHash = () => {
+        const m = /^#model=(.+)$/.exec(location.hash);
+        if (!m) return;
+        const name = decodeURIComponent(m[1]);
+        const r = releases.find(x => x.name === name);
+        if (r) openDrawer(r, false);
+      };
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
+    }
+
     // --- Boot ---
     fetch('model_releases.csv')
       .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
@@ -621,6 +822,7 @@
         if (!releases.length) throw new Error('model_releases.csv parsed to zero rows');
         const now = new Date();
         const cutoff = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
+        releases.forEach((r, i) => { r._i = i; });
         for (const r of releases) {
           r._d = parseDate(r.date);
           r._classic = r._d < cutoff;
@@ -633,6 +835,7 @@
         document.getElementById('sync').textContent = 'Seeded ' + SEEDED;
         buildControls();
         render();
+        setupDrawer();
       })
       .catch(err => {
         const box = document.getElementById('error');
