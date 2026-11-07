@@ -9,6 +9,38 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-08] — Model timeline: models.dev cross-check, 8 releases added, 5 dates fixed
+
+[models.dev](https://github.com/anomalyco/models.dev) (MIT-licensed, updated daily) is now a weekly upstream
+for the timeline. `.github/scripts/check_models_dev.py` runs in the existing upstream workflow and opens a
+review issue listing recent first-party models we lack, and any rows where release dates or open-weights
+status disagree. It never edits data. models.dev can lag (it still lists Kimi K3.1 Pro and Mistral Large 4
+as closed, though both have weights on Hugging Face), so each item is verified before it changes anything.
+Reviewed items live in `.github/upstreams/models-dev-reviewed.txt`, so each issue shows only new findings.
+
+### Added (verified against the lab's announcement or Hugging Face)
+- **US:** Claude Opus 5 (Jul 24), Grok 4.6 (Aug 12), GPT-6.1 Sol (Sep 29), Muse Wonder + Wonder Full (Oct 12),
+  plus two open-weight releases: Muse Glimmer 30B (Aug 10, Apache-2.0, Meta's first open model since Llama 4)
+  and Nemotron 3.5 Super VL (Oct 15, OpenMDW 1.1, 120B MoE).
+- **China:** MiniMax H3 open video model (Jul 31, weights Aug 3) and Tencent Hy4 preview (Aug 28, Apache-2.0,
+  770B MoE).
+
+### Fixed
+- **Claude Fable 5.1 + Mythos:** Sep 15 → Sep 1 (per the system card and release notes). The source link, which
+  returned 404, now points to Anthropic's announcement page.
+- **GLM-5.3:** Aug 25 → Aug 14 (API launch); open weights followed Aug 28.
+- **Gemini 4 Argon:** Sep 30 → Oct 13. Sep 30 was a partner-only preview for vetted cyber defenders.
+- **Mistral Large 4:** Oct 29 → Oct 6 (public API preview); open weights Oct 29.
+- **Whisper large-v3-turbo:** Oct 10 → Oct 1, 2024.
+- These follow one rule, now written into the upkeep prompt: date each row by its first public release, and
+  note a later weights date in `notes`.
+- **Rumour mill:** "Muse Wonder 1.x" is a market on a *follow-up* Wonder release in November. Its note no
+  longer calls it the next model after Muse Spark Open, since Wonder 1.0 shipped Oct 12.
+
+### Checked and kept
+models.dev's dates for GPT-4, o3-mini, Gemini 2.5 Pro and Beam 1.0 are an API, GA or waitlist date rather
+than the first public release. Its open-weights flags for Kimi K3.1 Pro and Mistral Large 4 are out of date.
+
 ## [2026-11-07] — Model timeline: GPT-6, Gemini 4, Claude 5.5, Qwen4 and a new layout
 
 Monthly upkeep of [`models.html`](models.html): 22 releases added (75 → 97), each

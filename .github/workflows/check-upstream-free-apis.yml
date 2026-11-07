@@ -57,3 +57,22 @@ jobs:
           if ! printf '%s\n' "$existing" | grep -Fqx "$title"; then
             gh issue create --title "$title" --body-file "$RUNNER_TEMP/models-fyi-report.md"
           fi
+
+      - name: Cross-check the timeline against models.dev
+        id: models_dev
+        run: |
+          python3 .github/scripts/check_models_dev.py \
+            --output "$RUNNER_TEMP/models-dev-report.md" \
+            --github-output "$GITHUB_OUTPUT"
+          cat "$RUNNER_TEMP/models-dev-report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open a review issue for models.dev findings
+        if: steps.models_dev.outputs.has_findings == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Review models.dev cross-check for the model timeline"
+          existing=$(gh issue list --state open --search "$title in:title" --json title --jq '.[].title')
+          if ! printf '%s\n' "$existing" | grep -Fqx "$title"; then
+            gh issue create --title "$title" --body-file "$RUNNER_TEMP/models-dev-report.md"
+          fi

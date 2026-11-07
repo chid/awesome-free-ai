@@ -120,3 +120,16 @@ date,action,name,notes
 2026-11-07,add,Qwen4-Plus,placeholder (license TBD) until release; update date/params/context/license when it ships
 2026-11-07,add,Qwen4-Flash,placeholder (license TBD) until release; update date/params/context/license when it ships
 2026-11-07,add,Qwen4-27B,placeholder (license TBD) until release; update date/params/context/license when it ships
+2026-11-08,edit,GLM-5.3,"models.dev cross-check, verified against the lab's announcement; was {'date': '2026-08-25', 'notes': 'GLM-5.2 successor for long agent runs; Flash sibling released alongside'}"
+2026-11-08,edit,Claude Fable 5.1 + Mythos,"models.dev cross-check, verified against the lab's announcement; was {'date': '2026-09-15', 'source_url': 'https://www.anthropic.com/news/claude-fable-and-mythos-5-1'}"
+2026-11-08,edit,Gemini 4 Argon,"models.dev cross-check, verified against the lab's announcement; was {'date': '2026-09-30', 'notes': 'First Gemini 4 model: started with vetted cyber defenders, generally available Oct 13'}"
+2026-11-08,edit,Mistral Large 4,"models.dev cross-check, verified against the lab's announcement; was {'date': '2026-10-29', 'notes': 'Trillion-parameter open MoE: preview Oct 6, open weights Oct 29'}"
+2026-11-08,edit,Whisper large-v3-turbo,"models.dev cross-check, verified against the lab's announcement; was {'date': '2024-10-10'}"
+2026-11-08,add,Claude Opus 5,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,MiniMax H3,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,Muse Glimmer 30B,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,Grok 4.6,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,Hy4 preview,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,GPT-6.1 Sol,found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,Muse Wonder (+ Full),found by models.dev cross-check; verified against the lab announcement / Hugging Face
+2026-11-08,add,Nemotron 3.5 Super VL,found by models.dev cross-check; verified against the lab announcement / Hugging Face

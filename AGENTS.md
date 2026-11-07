@@ -44,6 +44,9 @@ A self-updating directory of free AI tools, served as a static web page driven b
 | `model_releases_history.csv` | Append-only seed/change log for `model_releases.csv` |
 | `rumours.html` | Rumoured/announced-but-unshipped models ranked by prediction-market odds, plus filings (e.g. Anthropic's S-1); fetches `rumours.csv` |
 | `rumours.csv` | Data for the rumour page: `item, lab, kind (model/filing), status (Rumoured/Announced/Confirmed), expected, probability, market_scope (blank = the market is for this exact model; otherwise what it resolves on, e.g. "any Qwen model"), notes, source_label, source_url, checked`. Once something ships, move it to `model_releases.csv` and delete it here. This file is a snapshot, not a log |
+| `.github/workflows/check-upstream-free-apis.yml` | Weekly upstream checks; each opens a review issue when it finds something: awesome-free-llm-apis providers, new models.fyi pages, and the models.dev cross-check |
+| `.github/scripts/check_models_dev.py` | Compares `model_releases.csv` with [models.dev](https://github.com/anomalyco/models.dev) (`models/<lab>/*.toml`): recent first-party models we lack, plus release dates more than 7 days apart or open-weights disagreements. It only reports and never edits our data. models.dev can lag, so verify each item with the lab or Hugging Face |
+| `.github/upstreams/models-dev-reviewed.txt` | Items from that check that were reviewed: skipped models, differences where our value is right, and `match` lines for rows named differently from models.dev |
 | `.github/workflows/pages.yml` | Deploys the site (both pages + CSVs) to GitHub Pages on every push to `main` |
 
 
