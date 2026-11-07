@@ -9,6 +9,53 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-07] — Model timeline: GPT-6, Gemini 4, Claude 5.5, Qwen4 and a new layout
+
+Monthly upkeep of [`models.html`](models.html): 22 releases added (75 → 97), each
+checked against the lab's announcement page or its Hugging Face repo, plus
+licence, context and launch-date corrections. Logged in `model_releases_history.csv`.
+
+### Added — US
+- **OpenAI** — GPT-6 Astra (Sep 3), GPT-6 Sol + Luna (Sep 22), GPT-6.1 Terra (Oct 26)
+- **Anthropic** — Claude Fable 5.1 + Mythos (Sep 15), Sonnet 5.5 (Sep 28), Haiku 5.5 (Oct 7)
+- **Google** — Gemini 4 Argon (Sep 30, generally available Oct 13), Gemini 4 Carbon (Oct 28, limited preview)
+- **Open weights** — Meta Muse Spark Open (816B MoE, Oct 15), Reflection AI Beam 1.0 (501B MoE, Apache-2.0, Oct 16)
+
+### Added — China
+- **Qwen4 (announced)** — Max / Plus / Flash / 27B named at Apsara on Sep 22; the 27B tier
+  is slated for open weights. As of Nov 7 there are no Qwen4 weights on Hugging Face, so it is
+  marked `Open (announced)`.
+- Qwen3.8-2.4T-A95B (Aug 8), Qwen3.8-Flash-Next, Qwen-Image-2.1, DeepSeek-V4.1-Flash,
+  Kimi K3.1 Pro (weights Nov 2), MiniMax-M3.1-Flash, Xiaomi MiMo-V2.6, StepFun Step-5-Preview,
+  Baidu ERNIE-5.5-Flash-Base
+
+### Added — Europe
+- Mistral Large 4 (1T MoE, open weights), FLUX 3 Image Klein (first downloadable FLUX 3 weights)
+
+### Layout
+- US / China / Europe summary cards (releases, open-weight count, open share, latest) that
+  double as region filters
+- Region filter chips (region is derived from `lab`, so the CSV schema is unchanged), with
+  per-chip counts and a "Clear filters" button
+- Year → month grouping, cards outlined in their region colour, licence shown for open
+  models, and a "New" tag for the last 60 days
+- Sticky, more compact filter bar, light-mode support and a compact phone layout
+- Fixed the footer's `models_viz_prompt.md` link, which pointed at github.com
+
+### Rumour mill (new page)
+- Added [`rumours.html`](rumours.html) + `rumours.csv`: 20 rumoured or announced-but-unshipped
+  models (GPT-6.2, Claude Fable 5.5 / Opus 5.6, Gemini 4 Flash, Grok 4.8, Qwen4, GLM-5.4,
+  DeepSeek V4.1 Pro / V5 and more), ranked by Manifold market odds as of 2026-11-07. Linked
+  from the timeline header.
+- Anthropic's **S-1** is shown in a separate panel at the top, labelled as an IPO filing rather
+  than a model: public S-1 filed Oct 26 and S-1/A Nov 2, Nasdaq ticker ANT, listing targeted for
+  the week of Nov 16 (reported). The S-1/A says future models may soon cross the RSP "accelerated
+  progress" threshold.
+
+### Open questions
+- Kimi K3 is dated `2026-08`, but its Hugging Face repo was created on 2026-06-13. It was left
+  unchanged pending a primary-source date.
+
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 
 Renamed the repository to `chid/awesome-free-ai` and updated the published-site

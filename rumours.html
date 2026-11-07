@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Rumour Mill</title>
+  <style>
+    :root {
+      --bg: #0b0d13;
+      --bg-gradient: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.09) 0%, rgba(15, 17, 23, 0) 75%);
+      --grid-line: rgba(255, 255, 255, 0.015);
+      --surface: rgba(26, 29, 41, 0.72);
+      --surface-solid: #151824;
+      --surface-hover: rgba(34, 38, 58, 0.9);
+      --track: #252a40;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(167, 139, 250, 0.35);
+      --accent: #7c3aed;
+      --accent2: #a78bfa;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --us: #60a5fa;
+      --cn: #f87171;
+      --eu: #fbbf24;
+      --other: #94a3b8;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        --bg: #f7f7fb;
+        --bg-gradient: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, rgba(247, 247, 251, 0) 70%);
+        --grid-line: rgba(15, 23, 42, 0.03);
+        --surface: rgba(255, 255, 255, 0.88);
+        --surface-solid: #ffffff;
+        --surface-hover: #ffffff;
+        --track: #e5e7eb;
+        --border: rgba(15, 23, 42, 0.1);
+        --accent2: #6d28d9;
+        --text: #0f172a;
+        --text-muted: #475569;
+        --text-subtle: #64748b;
+        --green: #047857;
+        --yellow: #b45309;
+        --us: #2563eb; --cn: #dc2626; --eu: #b45309; --other: #64748b;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', system-ui, sans-serif;
+      background-color: var(--bg); background-image: var(--bg-gradient);
+      background-repeat: no-repeat; background-attachment: fixed;
+      color: var(--text); min-height: 100vh; padding: 2.5rem 1rem 5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-size: 40px 40px;
+      background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+                        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    }
+    .container { max-width: 960px; margin: 0 auto; position: relative; z-index: 1; }
+
+    header { text-align: center; margin-bottom: 1.75rem; }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.85rem;
+      background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 999px; font-size: 0.76rem; font-weight: 600; color: var(--yellow); margin-bottom: 1rem;
+    }
+    h1 { font-size: 2.3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.6rem; }
+    h1 .grad { background: linear-gradient(120deg, var(--yellow), var(--cn)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .subtitle { color: var(--text-muted); max-width: 640px; margin: 0 auto; line-height: 1.55; }
+    .nav { margin-top: 1rem; display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .nav a { color: var(--text-subtle); font-size: 0.85rem; text-decoration: none; }
+    .nav a:hover { color: var(--accent2); }
+
+    .warn {
+      font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; text-align: center;
+      border: 1px dashed var(--border); border-radius: var(--radius); padding: 0.7rem 1rem; margin-bottom: 1.25rem;
+    }
+
+    /* Spotlight (filings, not models) */
+    .spot {
+      background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--us);
+      border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; margin-bottom: 1.5rem;
+    }
+    .spot-kicker { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--us); }
+    .spot h2 { font-size: 1.25rem; margin: 0.25rem 0 0.5rem; }
+    .spot p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+    .spot-facts { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 0.8rem 0 0.4rem; }
+    .spot-facts div { font-size: 0.72rem; color: var(--text-subtle); text-transform: uppercase; letter-spacing: 0.06em; }
+    .spot-facts b { display: block; font-size: 0.98rem; color: var(--text); text-transform: none; letter-spacing: 0; }
+
+    /* Controls */
+    .controls {
+      background: var(--surface-solid); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 0.8rem 1rem; display: flex; gap: 0.5rem 1.25rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.25rem;
+    }
+    .chip-group { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+    .chip-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-subtle); margin-right: 0.2rem; }
+    .chip {
+      padding: 0.26rem 0.7rem; border-radius: 999px; font-size: 0.76rem; font-weight: 600; font-family: inherit;
+      background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); cursor: pointer; transition: var(--transition);
+    }
+    .chip:hover { color: var(--text); border-color: var(--border-hover); }
+    .chip.active { background: rgba(124, 58, 237, 0.16); border-color: var(--accent); color: var(--accent2); }
+
+    /* Rumour rows */
+    .rum {
+      display: grid; grid-template-columns: 1fr 170px; gap: 1rem; align-items: center;
+      background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--rc);
+      border-radius: var(--radius); padding: 0.75rem 1rem; margin-bottom: 0.45rem; transition: var(--transition);
+    }
+    .rum:hover { background: var(--surface-hover); border-color: var(--border-hover); border-left-color: var(--rc); }
+    .rum-name { font-weight: 700; font-size: 0.95rem; }
+    .rum-lab { font-size: 0.78rem; color: var(--text-muted); margin-left: 0.35rem; }
+    .rum-notes { font-size: 0.8rem; color: var(--text-subtle); margin-top: 0.22rem; line-height: 1.45; }
+    .rum-meta { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem; display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
+    .rum-meta a { color: var(--text-muted); }
+    .pill { padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.66rem; font-weight: 700; border: 1px solid; }
+    .pill-Rumoured { color: var(--text-muted); border-color: var(--border); }
+    .pill-Announced { color: var(--yellow); border-color: rgba(245, 158, 11, 0.4); }
+    .pill-Confirmed { color: var(--green); border-color: rgba(16, 185, 129, 0.4); }
+    .pill-region { color: var(--rc); border-color: var(--rc); }
+
+    .prob { text-align: right; }
+    .prob-num { font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .prob-num small { font-size: 0.7rem; font-weight: 600; color: var(--text-subtle); }
+    .prob-bar { height: 6px; border-radius: 999px; background: var(--track); overflow: hidden; margin-top: 0.3rem; }
+    .prob-bar i { display: block; height: 100%; border-radius: 999px; }
+    .prob-when { font-size: 0.72rem; color: var(--text-subtle); margin-top: 0.3rem; }
+    .prob-na { font-size: 0.8rem; color: var(--text-subtle); }
+
+    #error { display: none; text-align: center; padding: 2rem; color: var(--yellow); border: 1px solid rgba(245,158,11,.3); border-radius: var(--radius-lg); }
+    footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border); color: var(--text-subtle); font-size: 0.8rem; line-height: 1.7; text-align: center; }
+    footer a { color: var(--text-muted); }
+
+    @media (max-width: 640px) {
+      h1 { font-size: 1.7rem; }
+      .rum { grid-template-columns: 1fr; gap: 0.5rem; }
+      .prob { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="status-badge" id="badge">Loading rumours…</div>
+      <h1>Model <span class="grad">Rumour Mill</span></h1>
+      <p class="subtitle">What's expected next from the frontier labs and China's open-weight challengers, ranked by prediction-market odds. Nothing here is confirmed until it lands on the timeline.</p>
+      <div class="nav">
+        <a href="models.html">← Release timeline</a>
+        <a href="index.html">Resources directory</a>
+      </div>
+    </header>
+
+    <div class="warn">
+      Rumours come from prediction markets, leaks and secondary reporting. Probabilities are a
+      <b>snapshot of market prices</b> on the date shown, not forecasts of ours.
+    </div>
+
+    <div id="spotlight"></div>
+
+    <div class="controls">
+      <div class="chip-group" id="region-chips"><span class="chip-label">Region</span></div>
+      <div class="chip-group" id="status-chips"><span class="chip-label">Status</span></div>
+    </div>
+
+    <div id="error"></div>
+    <div id="list"></div>
+
+    <footer>
+      Data in <a href="rumours.csv"><code>rumours.csv</code></a>. When a rumoured model ships, move it to
+      <a href="model_releases.csv"><code>model_releases.csv</code></a> and delete it here.
+      Market odds from <a href="https://manifold.markets/prismatic/november-2026-ai-model-releases">Manifold — November 2026 AI model releases</a>.
+    </footer>
+  </div>
+
+  <script>
+    'use strict';
+    function parseCSV(text) {
+      const rows = []; let row = [], field = '', q = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+        else if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && text[i + 1] === '\n') i++;
+          row.push(field); field = '';
+          if (row.length > 1 || row[0] !== '') rows.push(row);
+          row = [];
+        } else field += c;
+      }
+      if (field !== '' || row.length) { row.push(field); rows.push(row); }
+      const h = rows.shift().map(s => s.trim());
+      return rows.filter(r => r.length === h.length).map(r => Object.fromEntries(h.map((k, i) => [k, r[i].trim()])));
+    }
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    // Same lab → region mapping as models.html.
+    const REGIONS = {
+      US: { label: 'US', color: 'var(--us)', labs: ['OpenAI', 'Anthropic', 'Google', 'Meta', 'xAI', 'Reflection AI', 'NVIDIA', 'Microsoft', 'Amazon'] },
+      CN: { label: 'China', color: 'var(--cn)', labs: ['Alibaba', 'DeepSeek', 'Moonshot AI', 'Zhipu AI (Z.ai)', 'MiniMax', 'StepFun', 'Xiaomi', 'Baidu', 'Tencent', 'ByteDance'] },
+      EU: { label: 'Europe', color: 'var(--eu)', labs: ['Mistral AI', 'Black Forest Labs', 'Stability AI'] },
+    };
+    const regionOf = lab => Object.keys(REGIONS).find(k => REGIONS[k].labs.includes(lab)) || 'Other';
+    const color = k => REGIONS[k] ? REGIONS[k].color : 'var(--other)';
+    const probColor = p => p >= 75 ? 'var(--green)' : p >= 50 ? 'var(--yellow)' : 'var(--text-subtle)';
+
+    const state = { region: 'All', status: 'All' };
+    let items = [];
+
+    function spotlight(r) {
+      return '<section class="spot" style="--us:' + color(r._region) + '">' +
+        '<div class="spot-kicker">Filing · not a model</div>' +
+        '<h2>' + esc(r.item) + '</h2>' +
+        '<div class="spot-facts">' +
+          '<div>Public S-1<b>Oct 26, 2026</b></div>' +
+          '<div>S-1/A<b>Nov 2, 2026</b></div>' +
+          '<div>Ticker<b>ANT · Nasdaq</b></div>' +
+          '<div>Listing<b>' + esc(r.expected.replace(/^IPO target: /, '')) + '</b></div>' +
+        '</div>' +
+        '<p>' + esc(r.notes) + '</p>' +
+        '<p style="margin-top:.5rem;font-size:.75rem">Source: <a href="' + esc(r.source_url) + '" target="_blank" rel="noopener" style="color:inherit">' + esc(r.source_label) + '</a> · checked ' + esc(r.checked) + '</p>' +
+      '</section>';
+    }
+
+    function row(r) {
+      const p = r.probability === '' ? null : Number(r.probability);
+      return '<div class="rum" style="--rc:' + color(r._region) + '">' +
+        '<div>' +
+          '<span class="rum-name">' + esc(r.item) + '</span><span class="rum-lab">' + esc(r.lab) + '</span>' +
+          (r.notes ? '<div class="rum-notes">' + esc(r.notes) + '</div>' : '') +
+          '<div class="rum-meta">' +
+            '<span class="pill pill-' + esc(r.status) + '">' + esc(r.status) + '</span>' +
+            '<span class="pill pill-region">' + (REGIONS[r._region] ? REGIONS[r._region].label : 'Other') + '</span>' +
+            '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + esc(r.source_label) + '</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="prob">' +
+          (p === null ? '<div class="prob-na">No market</div>'
+            : '<div class="prob-num" style="color:' + probColor(p) + '">' + p + '%<small> by end of month</small></div>' +
+              '<div class="prob-bar"><i style="width:' + p + '%;background:' + probColor(p) + '"></i></div>') +
+          '<div class="prob-when">' + esc(r.expected) + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function render() {
+      const filings = items.filter(r => r.kind === 'filing');
+      document.getElementById('spotlight').innerHTML = filings.map(spotlight).join('');
+      const list = items.filter(r => r.kind !== 'filing')
+        .filter(r => state.region === 'All' || r._region === state.region)
+        .filter(r => state.status === 'All' || r.status === state.status)
+        .sort((a, b) => (Number(b.probability) || -1) - (Number(a.probability) || -1));
+      document.getElementById('list').innerHTML = list.length ? list.map(row).join('')
+        : '<p style="text-align:center;color:var(--text-subtle);padding:2rem">Nothing matches.</p>';
+    }
+
+    function chips(id, key, values, label) {
+      const el = document.getElementById(id);
+      for (const v of ['All', ...values]) {
+        const b = document.createElement('button');
+        b.className = 'chip' + (v === 'All' ? ' active' : '');
+        b.textContent = label ? label(v) : v;
+        b.onclick = () => {
+          state[key] = v;
+          el.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === b));
+          render();
+        };
+        el.appendChild(b);
+      }
+    }
+
+    fetch('rumours.csv')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(t => {
+        items = parseCSV(t);
+        items.forEach(r => r._region = regionOf(r.lab));
+        const models = items.filter(r => r.kind !== 'filing');
+        const checked = items.map(r => r.checked).sort().pop();
+        document.getElementById('badge').textContent = models.length + ' rumoured models · odds checked ' + checked;
+        chips('region-chips', 'region', [...Object.keys(REGIONS), 'Other'].filter(k => models.some(r => r._region === k)),
+          v => v === 'All' ? 'All' : (REGIONS[v] ? REGIONS[v].label : 'Other'));
+        chips('status-chips', 'status', [...new Set(models.map(r => r.status))]);
+        render();
+      })
+      .catch(e => {
+        const box = document.getElementById('error');
+        box.style.display = 'block';
+        box.innerHTML = 'Could not load <code>rumours.csv</code> (' + esc(e.message) + '). Serve the folder with ' +
+          '<code>python3 -m http.server 8080</code> and open <code>http://localhost:8080/rumours.html</code>.';
+      });
+  </script>
+</body>
+</html>

@@ -74,3 +74,35 @@ date,action,name,notes
 2026-10-03,add,Grok 4.7,seed pass 2026-10-03 from models.fyi / Epoch AI / lab blogs; open-weight status verified on Hugging Face
 2026-10-03,add,Claude Opus 5.5,seed pass 2026-10-03 from models.fyi / Epoch AI / lab blogs; open-weight status verified on Hugging Face
 2026-10-03,add,FLUX 3 Action,seed pass 2026-10-03 from models.fyi / Epoch AI / lab blogs; open-weight status verified on Hugging Face
+2026-11-07,add,Qwen3.8-Flash-Next,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,DeepSeek-V4.1-Flash,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,Qwen-Image-2.1,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,Step-5-Preview,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,MiMo-V2.6 (Pro/Flash),upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,Mistral Large 4,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,FLUX 3 Image Klein,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,MiniMax-M3.1-Flash,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,ERNIE-5.5-Flash-Base,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,Kimi K3.1 Pro,upkeep 2026-11-07; open weights verified via Hugging Face API repo createdAt; licence/params pending
+2026-11-07,add,Qwen3.8-2.4T-A95B,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,GPT-6 Astra,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Claude Fable 5.1 + Mythos,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,GPT-6 Sol + Luna,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Qwen4 (announced),"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Claude Sonnet 5.5,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Gemini 4 Argon,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Claude Haiku 5.5,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Muse Spark Open,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Beam 1.0,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,GPT-6.1 Terra,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,add,Gemini 4 Carbon,"upkeep 2026-11-07; verified on lab announcement page / Hugging Face"
+2026-11-07,edit,Kimi K3.1 Pro,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,MiniMax-M3.1-Flash,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,DeepSeek-V4.1-Flash,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,FLUX 3 Image Klein,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,Qwen3.8-Flash-Next,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,Qwen-Image-2.1,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,MiMo-V2.6 (Pro/Flash),"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,ERNIE-5.5-Flash-Base,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,Mistral Large 4,"filled licence/context/launch date from Hugging Face model card and lab launch post"
+2026-11-07,edit,Step-5-Preview,"filled licence/context/launch date from Hugging Face model card and lab launch post"
