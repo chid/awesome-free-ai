@@ -71,6 +71,10 @@ licence, context and launch-date corrections. Logged in `model_releases_history.
   The model name on each card still links straight to its source.
 - This was the one worthwhile follow-up from the Stitch exploration. Its other suggestion, a benchmark
   scatterplot, was skipped because we don't track benchmark scores.
+- **Counts agree:** the header counts only what the page can show: 95 releases plus 4 announced placeholders (two
+  rows older than two years and not marked notable are left out). The filter line reads "Showing N of 99"; the
+  placeholders aren't counted as open-weight.
+- **Chronology index grouped by year,** with a sticky year heading and per-year totals.
 - The top bar on both pages now reads **Awesome Free AI** (it was Stitch's "Telemetry") and links home.
 
 ### Qwen4 placeholders

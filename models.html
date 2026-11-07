@@ -206,6 +206,11 @@
     .index-list a:hover { background: var(--panel); color: var(--text); }
     .index-list a.on { background: var(--panel); border-left-color: var(--primary); color: var(--text); }
     .index-list a span { color: var(--text-3); }
+    .index-list a { padding-left: 1rem; }
+    .idx-year { position: sticky; top: 0; z-index: 1; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.6875rem;
+      font-weight: 700; letter-spacing: 0.07em; color: var(--text); background: var(--bg); padding: 0.45rem 0.55rem 0.3rem; border-bottom: 1px solid var(--line); }
+    .idx-year:not(:first-child) { margin-top: 0.4rem; }
+    .idx-year span { color: var(--text-3); font-weight: 400; }
     .legend { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 0.6rem 0.7rem; display: grid; gap: 0.35rem; }
     .legend div { display: flex; align-items: center; gap: 0.5rem; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2); }
     .legend i { width: 8px; height: 8px; border-radius: 2px; }
@@ -347,7 +352,7 @@
         <h1>Frontier AI Model Release Timeline</h1>
         <p class="lede">US frontier labs, China's open-weight challengers and Europe, side by side. Green means you can download the weights and run it today.</p>
       </div>
-      <div class="tracking"><i></i>Tracking <b id="t-count">—</b> releases · seeded <em id="t-seed">—</em></div>
+      <div class="tracking"><i></i>Tracking <b id="t-count">—</b> releases<span id="t-ann"></span> · seeded <em id="t-seed">—</em></div>
     </div>
 
     <section class="race" id="race" aria-label="Releases by region, last 12 months"></section>
@@ -580,9 +585,11 @@
     function render() {
       const scope = releases.filter(inScope);
       const visible = releases.filter(matches).sort((a, b) => b._d - a._d || a.name.localeCompare(b.name));
-      const openCount = visible.filter(r => isOpen(r.weights)).length;
+      const openCount = visible.filter(r => isOpen(r.weights) && !r._ph).length;
+      const phCount = visible.filter(r => r._ph).length;
       document.getElementById('status-left').innerHTML =
-        'Showing <b>' + visible.length + '</b> releases · <span class="oc">' + openCount + ' open-weight</span> · filtered from ' + scope.length;
+        'Showing <b>' + visible.length + '</b> of ' + scope.length + ' · <span class="oc">' + openCount + ' open-weight</span>' +
+        (phCount ? ' · ' + phCount + ' announced' : '');
       renderRace();
       renderFacets();
       const active = Object.keys(DEFAULTS).filter(k => state[k] !== DEFAULTS[k]).length;
@@ -601,13 +608,16 @@
         if (!groups.has(key)) groups.set(key, []);
         groups.get(key).push(r);
       }
-      let html = '', index = '';
+      let html = '', index = '', lastYear = null;
+      const perYear = {};
+      for (const [key, rows] of groups) perYear[key.slice(0, 4)] = (perYear[key.slice(0, 4)] || 0) + rows.length;
       for (const [key, rows] of groups) {
         const [y, m] = key.split('-').map(Number);
         const label = y + ' / ' + MONTHS_LONG[m - 1];
         html += '<section class="month" id="m-' + key + '"><div class="month-head"><h2><i></i>' + label + '</h2>' +
           '<span>' + rows.length + ' release' + (rows.length > 1 ? 's' : '') + '</span></div>' + rows.map(relCard).join('') + '</section>';
-        index += '<a href="#m-' + key + '" data-key="' + key + '">' + y + ' / ' + MONTHS[m - 1] + '<span>' + rows.length + '</span></a>';
+        if (y !== lastYear) { index += '<div class="idx-year">' + y + '<span>' + perYear[y] + '</span></div>'; lastYear = y; }
+        index += '<a href="#m-' + key + '" data-key="' + key + '">' + MONTHS_LONG[m - 1] + '<span>' + rows.length + '</span></a>';
       }
       tl.innerHTML = html;
       idx.innerHTML = index;
@@ -830,7 +840,11 @@
           r._ph = r.license === 'TBD';   // announced placeholder, not shipped yet
           r._new = !r._ph && now - r._d <= NEW_MS && r._d <= now;
         }
-        document.getElementById('t-count').textContent = releases.length;
+        // Count what the page can show (two-year window + notable classics), so it matches the filter line.
+        const shown = releases.filter(r => !r._classic || r.notable === 'Yes');
+        const ann = shown.filter(r => r._ph).length;
+        document.getElementById('t-count').textContent = shown.length - ann;
+        if (ann) document.getElementById('t-ann').innerHTML = ' + <b>' + ann + '</b> announced';
         document.getElementById('t-seed').textContent = SEEDED;
         document.getElementById('sync').textContent = 'Seeded ' + SEEDED;
         buildControls();
