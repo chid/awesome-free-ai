@@ -31,6 +31,7 @@ Descript,Video Generation,https://descript.com,AI video/audio editing with trans
 NotebookLM,Productivity,https://notebooklm.google.com,Google's AI research and note-taking tool (upload docs),Free,Yes,"productivity,research,summarization,rag"
 Gamma,Productivity,https://gamma.app,AI-powered presentation and document creation,Free tier available,Yes,"productivity,presentations,docs"
 Napkin AI,Productivity,https://napkin.ai,Turn text into visuals and diagrams automatically,Free tier available,Yes,"productivity,diagrams,visuals"
+Prompt Generator,Productivity,https://trypromptgenerator.com,"Writes prompts in the syntax of the AI tool you pick (ChatGPT, Claude, Gemini, Midjourney, Nano Banana, Veo, Sora and more)","10 prompts/day without an account (20 with a free account), then 1 credit each",No,"productivity,prompts,writing,image,video"
 v0 by Vercel,Code / UI,https://v0.dev,Generate React/UI components from prompts,Free tier available,Yes,"coding,ui,react,frontend"
 Bolt.new,Code / UI,https://bolt.new,Full-stack AI app builder in the browser,Free tier available,Yes,"coding,fullstack,frontend,deployment"
 Cerebras,LLM API,https://cloud.cerebras.ai,Ultra-fast inference API for open models (Llama 4 and Qwen) via custom silicon,Free tier: 1M tokens/day with no credit card,Yes,"api,fast,llama,open-source,inference"

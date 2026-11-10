@@ -4,7 +4,7 @@
 
 # Awesome Free AI
 
-![Free Resources](https://img.shields.io/badge/Free_Resources-72-success)
+![Free Resources](https://img.shields.io/badge/Free_Resources-73-success)
 ![Local Tools](https://img.shields.io/badge/Local_Tools-79-blue)
 ![Paid Tools](https://img.shields.io/badge/Paid_Tools-29-lightgrey)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -12,7 +12,7 @@
 
 Free tiers change fast — tools get paywalled, rebranded, or shut down. This list captures what was on offer at the time of each update, with every change tracked in [`history.csv`](history.csv) and summarised in [`CHANGELOG.md`](CHANGELOG.md). Think of it less as a permanent directory and more as a dated edition: accurate when written, audited on refresh.
 
-**72 resources** across 15 categories. Browse the [live site](https://chid.github.io/awesome-free-ai/) for a filterable, searchable UI, or read on. Dedicated local & self-hosted runners and models live in [`local_resources.csv`](local_resources.csv) (83 tools), tools with no genuine free tier live in [`paid_resources.csv`](paid_resources.csv) (28 of them), and [`QUOTAS.md`](QUOTAS.md) tracks how paid AI plans meter usage — increasingly the thing that separates a real free tier from a nominal one.
+**73 resources** across 15 categories. Browse the [live site](https://chid.github.io/awesome-free-ai/) for a filterable, searchable UI, or read on. Dedicated local & self-hosted runners and models live in [`local_resources.csv`](local_resources.csv) (83 tools), tools with no genuine free tier live in [`paid_resources.csv`](paid_resources.csv) (28 of them), and [`QUOTAS.md`](QUOTAS.md) tracks how paid AI plans meter usage — increasingly the thing that separates a real free tier from a nominal one.
 
 ### What is this?
 A snapshot of genuinely free (or free-tier) AI tools, APIs, and platforms **as they existed in October 2026**. Free tiers change fast — tools get paywalled, rebranded, or shut down. This directory captures what was on offer at the time of each update, tracking every tier shift and limit change. Think of it less as a permanent directory and more as a dated edition: accurate when written, audited on refresh.
@@ -146,6 +146,7 @@ AI tools for writing, notes, diagrams, and presentations.
 - **[NotebookLM](https://notebooklm.google.com)** — Google's AI research and note-taking tool (upload docs). *Free.*
 - **[Gamma](https://gamma.app)** — AI-powered presentation and document creation. *Free tier available.*
 - **[Napkin AI](https://napkin.ai)** — Turn text into visuals and diagrams automatically. *Free tier available.*
+- **[Prompt Generator](https://trypromptgenerator.com)** — Writes prompts in the syntax of the AI tool you pick (ChatGPT, Claude, Gemini, Midjourney, Nano Banana, Veo, Sora and more). *10 prompts/day without an account (20 with a free account), then 1 credit each.*
 
 ## Frameworks
 Open-source libraries for building agents, RAG pipelines, and optimized prompts. Represents Agent Frameworks, RAG Frameworks, and Prompt Optimization categories. All are free — costs come only from the models you connect.
