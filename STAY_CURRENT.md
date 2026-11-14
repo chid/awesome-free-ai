@@ -14,6 +14,7 @@ Add a podcast or community that fits your interests, rather than subscribing to 
 
 - **[The Batch](https://www.deeplearning.ai/the-batch/)** — a broad weekly overview, with accessible explanations of research and industry developments.
 - **[Import AI](https://importai.substack.com/)** — Jack Clark's weekly newsletter, with more attention to research, policy, and what new results could mean.
+- **[AIHOT Weekly](https://aihot.news/weekly)** — Chinese-language weekly recap of model releases, research, and AI industry developments with links to the source coverage.
 
 ## Blogs and primary sources
 
