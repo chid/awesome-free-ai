@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Rumour Mill</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Same "Telemetry" system as models.html (adapted from a Google Stitch exploration). */
+    :root {
+      color-scheme: dark;
+      --bg: #0a0e16;
+      --bg-glow: radial-gradient(1200px 500px at 15% -10%, rgba(245, 158, 11, 0.08), transparent 60%),
+                 radial-gradient(900px 500px at 100% 100%, rgba(59, 130, 246, 0.06), transparent 60%);
+      --panel: #0f1520; --panel-2: #131a27; --panel-hover: #161e2d; --track: #1e2636;
+      --line: rgba(148, 163, 184, 0.13); --line-strong: rgba(148, 163, 184, 0.24);
+      --text: #e6ebf3; --text-2: #a3aec2; --text-3: #7d899e;
+      --primary: #3b82f6; --primary-soft: rgba(59, 130, 246, 0.14);
+      --green: #22c55e; --green-soft: rgba(34, 197, 94, 0.12);
+      --amber: #f59e0b; --amber-soft: rgba(245, 158, 11, 0.12);
+      --us: #7aa2ff; --cn: #f87171; --eu: #f5b84b; --other: #94a3b8;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --display: 'Geist', 'Inter', -apple-system, system-ui, sans-serif;
+      --r: 6px; --r-lg: 10px;
+    }
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme="dark"]) {
+        color-scheme: light;
+        --bg: #f6f7fa; --bg-glow: radial-gradient(1200px 500px at 15% -10%, rgba(245, 158, 11, 0.07), transparent 60%);
+        --panel: #ffffff; --panel-2: #f8fafc; --panel-hover: #ffffff; --track: #e5e7eb;
+        --line: rgba(15, 23, 42, 0.10); --line-strong: rgba(15, 23, 42, 0.20);
+        --text: #0f172a; --text-2: #475569; --text-3: #5c6a7e;
+        --primary: #2563eb; --primary-soft: rgba(37, 99, 235, 0.10);
+        --green: #15803d; --green-soft: rgba(21, 128, 61, 0.10);
+        --amber: #b45309; --amber-soft: rgba(180, 83, 9, 0.10);
+        --us: #2563eb; --cn: #dc2626; --eu: #b45309; --other: #64748b;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); background-image: var(--bg-glow); background-attachment: fixed;
+           color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; font-size: 14px; }
+    a { color: inherit; }
+
+    .topbar { position: sticky; top: 0; z-index: 20; height: 48px; display: flex; align-items: center; gap: 1.25rem; padding: 0 1.25rem;
+              background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    .brand { font-family: var(--mono); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+    .brand span { color: var(--text-3); }
+    a.brand { text-decoration: none; color: inherit; }
+    .sync { display: inline-flex; align-items: center; gap: 0.45rem; font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2);
+            border: 1px solid var(--line); border-radius: var(--r); padding: 0.22rem 0.55rem; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+    .sync i { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+    .topnav { margin-left: auto; display: flex; gap: 0.25rem; }
+    .topnav a { text-decoration: none; font-size: 0.8rem; color: var(--text-2); padding: 0.4rem 0.7rem; border-radius: var(--r); white-space: nowrap; }
+    .topnav a:hover { color: var(--text); background: var(--panel-2); }
+    .topnav a.on { color: var(--text); box-shadow: inset 0 -2px 0 var(--amber); border-radius: 0; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+    .crumbs { font-family: var(--mono); font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .crumbs b { color: var(--text-2); font-weight: 600; }
+    h1 { font-family: var(--display); font-size: 2rem; font-weight: 700; letter-spacing: -0.025em; margin: 0.5rem 0 0.4rem; }
+    .subtitle { color: var(--text-2); max-width: 640px; line-height: 1.55; }
+    .warn { font-family: var(--mono); font-size: 0.72rem; color: var(--text-2); line-height: 1.55; background: var(--amber-soft);
+            border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent); border-radius: var(--r); padding: 0.6rem 0.8rem; margin: 1.25rem 0; }
+    .warn b { color: var(--amber); }
+
+    .spot { background: var(--panel); border: 1px solid var(--line); border-top: 2px solid var(--rc, var(--us)); border-radius: var(--r-lg); padding: 1rem 1.15rem; margin-bottom: 1.25rem; }
+    .spot-kicker { display: inline-block; font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+                   color: var(--rc, var(--us)); border: 1px solid var(--rc, var(--us)); border-radius: 4px; padding: 0.14rem 0.45rem; background: color-mix(in srgb, var(--rc, var(--us)) 12%, transparent); }
+    .spot h2 { font-family: var(--display); font-size: 1.25rem; font-weight: 600; margin: 0.55rem 0 0.2rem; }
+    .spot p { font-size: 0.85rem; color: var(--text-2); line-height: 1.55; }
+    .spot-facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin: 0.8rem 0; padding: 0.7rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .spot-facts div { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+    .spot-facts b { display: block; font-size: 0.92rem; font-weight: 600; color: var(--text); text-transform: none; letter-spacing: 0; margin-top: 0.15rem; }
+
+    .controls { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 0.65rem 0.85rem;
+                display: flex; gap: 0.4rem 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 1rem; }
+    .chip-group { display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; }
+    .chip-label { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 0.15rem; }
+    .chip { font-family: var(--mono); font-size: 0.7rem; color: var(--text-2); background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+            padding: 0.2rem 0.5rem; cursor: pointer; transition: all .12s; }
+    .chip:hover { color: var(--text); border-color: var(--line-strong); }
+    .chip.active { color: var(--text); background: var(--primary-soft); border-color: var(--primary); }
+
+    .rum { display: grid; grid-template-columns: 1fr 180px; gap: 1rem; align-items: center; background: var(--panel); border: 1px solid var(--line);
+           border-left: 3px solid var(--rc); border-radius: var(--r); padding: 0.75rem 0.9rem; margin-bottom: 0.5rem; transition: background .12s, border-color .12s; }
+    .rum:hover { background: var(--panel-hover); border-color: var(--line-strong); border-left-color: var(--rc); }
+    .rum-name { font-family: var(--display); font-weight: 600; font-size: 0.98rem; letter-spacing: -0.01em; }
+    .rum-lab { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-2); border: 1px solid var(--line); border-radius: 4px; padding: 0.08rem 0.4rem; margin-left: 0.45rem; vertical-align: 2px; }
+    .rum-notes { font-size: 0.8rem; color: var(--text-2); margin-top: 0.3rem; line-height: 1.45; }
+    .rum-meta { margin-top: 0.45rem; display: flex; gap: 0.35rem; flex-wrap: wrap; align-items: center; font-family: var(--mono); font-size: 0.6875rem; }
+    .rum-meta a { color: var(--text-3); margin-left: 0.25rem; }
+    .pill { font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; border: 1px solid var(--line-strong);
+            color: var(--text-2); border-radius: 4px; padding: 0.14rem 0.42rem; }
+    .pill-Announced { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); background: var(--amber-soft); }
+    .pill-Confirmed { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); background: var(--green-soft); }
+    .pill-region { color: var(--rc); border-color: color-mix(in srgb, var(--rc) 55%, transparent); }
+
+    .prob { text-align: right; }
+    .prob-num { font-family: var(--mono); font-size: 1.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .prob-num small { font-size: 0.6875rem; font-weight: 500; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-left: 0.3rem; }
+    .prob-bar { height: 3px; border-radius: 2px; background: var(--track); overflow: hidden; margin-top: 0.35rem; }
+    .prob-bar i { display: block; height: 100%; }
+    .prob-bar.broad i { opacity: 0.55; }
+    .prob-scope { font-family: var(--mono); font-size: 0.6875rem; color: var(--amber); margin-top: 0.3rem; }
+    .pill-broad { color: var(--text-2); border-style: dashed; }
+    .prob-when { font-family: var(--mono); font-size: 0.6875rem; color: var(--text-3); margin-top: 0.35rem; }
+    .prob-na { font-family: var(--mono); font-size: 0.72rem; color: var(--text-3); text-transform: uppercase; }
+
+    #error { display: none; padding: 1.5rem; color: var(--amber); border: 1px solid var(--amber); border-radius: var(--r-lg); background: var(--amber-soft); }
+    footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--text-3); font-size: 0.78rem; line-height: 1.7; }
+    footer a { color: var(--text-2); }
+    footer code { font-family: var(--mono); font-size: 0.74rem; }
+
+    @media (max-width: 720px) {
+      .container { padding: 1.25rem 1rem 3rem; }
+      .topbar { padding: 0 1rem; gap: 0.6rem; }
+      .sync, .brand span { display: none; }
+      .topnav a { padding: 0.4rem 0.45rem; font-size: 0.74rem; }
+      h1 { font-size: 1.5rem; }
+      .spot-facts { grid-template-columns: 1fr 1fr; }
+      .rum { grid-template-columns: 1fr; gap: 0.5rem; }
+      .prob { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <a class="brand" href="index.html">Awesome Free AI <span>// Rumour mill</span></a>
+    <div class="sync"><i></i><span id="badge">Loading…</span></div>
+    <div class="topnav">
+      <a href="models.html">Timeline</a>
+      <a href="index.html">Resources</a>
+      <a href="rumours.html" class="on">Rumour mill</a>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="crumbs">Awesome Free AI / Models / <b>Rumour mill</b></div>
+    <h1>What's next: model rumours</h1>
+    <p class="subtitle">Expected releases from the frontier labs and China's open-weight challengers, ranked by prediction-market odds. Nothing here is confirmed until it lands on the <a href="models.html">timeline</a>.</p>
+
+    <div class="warn">
+      Rumours come from prediction markets, leaks and secondary reporting. Probabilities are a
+      <b>snapshot of market prices</b> on the date shown, not forecasts of ours.
+    </div>
+
+    <div id="spotlight"></div>
+
+    <div class="controls">
+      <div class="chip-group" id="region-chips"><span class="chip-label">Region</span></div>
+      <div class="chip-group" id="status-chips"><span class="chip-label">Status</span></div>
+    </div>
+
+    <div id="error"></div>
+    <div id="list"></div>
+
+    <footer>
+      Data in <a href="rumours.csv"><code>rumours.csv</code></a>. When a rumoured model ships, move it to
+      <a href="model_releases.csv"><code>model_releases.csv</code></a> and delete it here.
+      Market odds from <a href="https://manifold.markets/prismatic/november-2026-ai-model-releases">Manifold — November 2026 AI model releases</a>.
+    </footer>
+  </div>
+
+  <script>
+    'use strict';
+    function parseCSV(text) {
+      const rows = []; let row = [], field = '', q = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else q = false; } else field += c; }
+        else if (c === '"') q = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && text[i + 1] === '\n') i++;
+          row.push(field); field = '';
+          if (row.length > 1 || row[0] !== '') rows.push(row);
+          row = [];
+        } else field += c;
+      }
+      if (field !== '' || row.length) { row.push(field); rows.push(row); }
+      const h = rows.shift().map(s => s.trim());
+      return rows.filter(r => r.length === h.length).map(r => Object.fromEntries(h.map((k, i) => [k, r[i].trim()])));
+    }
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    // Same lab → region mapping as models.html.
+    const REGIONS = {
+      US: { label: 'US', color: 'var(--us)', labs: ['OpenAI', 'Anthropic', 'Google', 'Meta', 'xAI', 'Reflection AI', 'NVIDIA', 'Microsoft', 'Amazon'] },
+      CN: { label: 'China', color: 'var(--cn)', labs: ['Alibaba', 'DeepSeek', 'Moonshot AI', 'Zhipu AI (Z.ai)', 'MiniMax', 'StepFun', 'Xiaomi', 'Baidu', 'Tencent', 'ByteDance'] },
+      EU: { label: 'Europe', color: 'var(--eu)', labs: ['Mistral AI', 'Black Forest Labs', 'Stability AI'] },
+    };
+    const regionOf = lab => Object.keys(REGIONS).find(k => REGIONS[k].labs.includes(lab)) || 'Other';
+    const color = k => REGIONS[k] ? REGIONS[k].color : 'var(--other)';
+    const probColor = p => p >= 75 ? 'var(--green)' : p >= 50 ? 'var(--amber)' : 'var(--text-3)';
+
+    const state = { region: 'All', status: 'All' };
+    let items = [];
+
+    function spotlight(r) {
+      return '<section class="spot" style="--rc:' + color(r._region) + '">' +
+        '<div class="spot-kicker">Filing · not a model</div>' +
+        '<h2>' + esc(r.item) + '</h2>' +
+        '<div class="spot-facts">' +
+          '<div>Public S-1<b>Oct 26, 2026</b></div>' +
+          '<div>S-1/A<b>Nov 2, 2026</b></div>' +
+          '<div>Ticker<b>ANT · Nasdaq</b></div>' +
+          '<div>Listing<b>' + esc(r.expected.replace(/^IPO target: /, '')) + '</b></div>' +
+        '</div>' +
+        '<p>' + esc(r.notes) + '</p>' +
+        '<p style="margin-top:.5rem;font-size:.75rem">Source: <a href="' + esc(r.source_url) + '" target="_blank" rel="noopener" style="color:inherit">' + esc(r.source_label) + '</a> · checked ' + esc(r.checked) + '</p>' +
+      '</section>';
+    }
+
+    function row(r) {
+      const p = r.probability === '' ? null : Number(r.probability);
+      // A broad market ("any Qwen model") is not odds for this specific model: show it neutral and labelled.
+      const broad = !!r.market_scope;
+      const c = broad ? 'var(--text-2)' : probColor(p);
+      return '<div class="rum" style="--rc:' + color(r._region) + '">' +
+        '<div>' +
+          '<span class="rum-name">' + esc(r.item) + '</span><span class="rum-lab">' + esc(r.lab) + '</span>' +
+          (r.notes ? '<div class="rum-notes">' + esc(r.notes) + '</div>' : '') +
+          '<div class="rum-meta">' +
+            '<span class="pill pill-' + esc(r.status) + '">' + esc(r.status) + '</span>' +
+            '<span class="pill pill-region">' + (REGIONS[r._region] ? REGIONS[r._region].label : 'Other') + '</span>' +
+            (broad ? '<span class="pill pill-broad" title="The market resolves on ' + esc(r.market_scope) + ', not only this model">Broad market</span>' : '') +
+            '<a href="' + esc(r.source_url) + '" target="_blank" rel="noopener">' + esc(r.source_label) + '</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="prob">' +
+          (p === null ? '<div class="prob-na">No market</div>'
+            : '<div class="prob-num" style="color:' + c + '">' + p + '%<small> by end of month</small></div>' +
+              '<div class="prob-bar' + (broad ? ' broad' : '') + '"><i style="width:' + p + '%;background:' + c + '"></i></div>' +
+              (broad ? '<div class="prob-scope">market: ' + esc(r.market_scope) + '</div>' : '')) +
+          '<div class="prob-when">' + esc(r.expected) + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function render() {
+      const filings = items.filter(r => r.kind === 'filing');
+      document.getElementById('spotlight').innerHTML = filings.map(spotlight).join('');
+      const list = items.filter(r => r.kind !== 'filing')
+        .filter(r => state.region === 'All' || r._region === state.region)
+        .filter(r => state.status === 'All' || r.status === state.status)
+        .sort((a, b) => (Number(b.probability) || -1) - (Number(a.probability) || -1));
+      document.getElementById('list').innerHTML = list.length ? list.map(row).join('')
+        : '<p style="text-align:center;color:var(--text-3);padding:2rem;font-family:var(--mono)">Nothing matches.</p>';
+    }
+
+    function chips(id, key, values, label) {
+      const el = document.getElementById(id);
+      for (const v of ['All', ...values]) {
+        const b = document.createElement('button');
+        b.className = 'chip' + (v === 'All' ? ' active' : '');
+        b.textContent = label ? label(v) : v;
+        b.onclick = () => {
+          state[key] = v;
+          el.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === b));
+          render();
+        };
+        el.appendChild(b);
+      }
+    }
+
+    fetch('rumours.csv')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(t => {
+        items = parseCSV(t);
+        items.forEach(r => r._region = regionOf(r.lab));
+        const models = items.filter(r => r.kind !== 'filing');
+        const checked = items.map(r => r.checked).sort().pop();
+        document.getElementById('badge').textContent = models.length + ' rumoured models · odds checked ' + checked;
+        chips('region-chips', 'region', [...Object.keys(REGIONS), 'Other'].filter(k => models.some(r => r._region === k)),
+          v => v === 'All' ? 'All' : (REGIONS[v] ? REGIONS[v].label : 'Other'));
+        chips('status-chips', 'status', [...new Set(models.map(r => r.status))]);
+        render();
+      })
+      .catch(e => {
+        const box = document.getElementById('error');
+        box.style.display = 'block';
+        box.innerHTML = 'Could not load <code>rumours.csv</code> (' + esc(e.message) + '). Serve the folder with ' +
+          '<code>python3 -m http.server 8080</code> and open <code>http://localhost:8080/rumours.html</code>.';
+      });
+  </script>
+</body>
+</html>

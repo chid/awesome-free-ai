@@ -127,7 +127,12 @@ and the notable classics list.
 
 1. Add the past month's notable releases: models.fyi first, open-weight claims
    verified against Hugging Face, `add` rows logged in
-   `model_releases_history.csv`.
+   `model_releases_history.csv`. Work through any open "Review models.dev
+   cross-check" issue (or run `python3 .github/scripts/check_models_dev.py`),
+   and record skipped items in `.github/upstreams/models-dev-reviewed.txt`.
+   Date a row by its first public release: the API, an app or a download that anyone
+   can use, so not a waitlist or partner-only preview. When weights follow later,
+   note their date in `notes`.
 2. Flip `Open (announced)` → `Open` when weights actually ship (e.g. FLUX 3 Dev
    when it lands), noting the ship date in `notes`.
 3. Prune rows older than two years that are not `notable=Yes`; log each prune

@@ -9,6 +9,28 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-14] — Weekly local refresh: an embeddable vector DB and a community terminal coding agent
+
+This refresh added 2 tools (86 → 88 local). Verified the README's local/paid/free
+counts against the actual CSV row counts via `python3 update.py`'s audit (72 free,
+28 paid, 88 local). No drift found in existing local rows this week.
+
+### Added
+- **Zvec** (Alibaba) — Embeddings / RAG. Lightweight, embeddable in-process vector
+  database with HNSW/IVF/DiskANN indexes, RaBitQ quantization, and hybrid
+  dense/sparse/full-text search; no server required. Apache-2.0, ~16.2k stars,
+  v0.8.1 released Nov 6 2026. Second entry in the Embeddings / RAG category
+  alongside Qdrant and LanceDB.
+- **Nanocoder** (Nano Collective) — Code Assistant. Open-source, community-built
+  terminal coding agent targeting local models via Ollama (or any
+  OpenAI-compatible endpoint) as a local-first alternative to cloud coding
+  agents. MIT, ~2.6k stars, commits through Nov 13 2026.
+
+### Still open from last week
+`python3 update.py`'s audit still reports the pre-existing `resources.csv` row 73
+(Devin) column-misalignment error flagged in the Nov 7 entry below — unrelated to
+this refresh and out of scope (local refresh must not edit `resources.csv`).
+
 ## [2026-11-07] — Weekly local refresh: antirez's DwarfStar runner, JetBrains' Mellum2, and vLLM's compression library
 
 This refresh added 3 tools (83 → 86 local). Verified the README's
@@ -34,6 +56,133 @@ unreleased) and Codebuff (still active) with no changes needed.
   offline; complements the existing GPTQModel/Axolotl/Unsloth/LLaMA-Factory
   rows with a deployment-compression focus. Apache-2.0, 4.0k stars, recent
   checkpoints published for GLM-5.3 and Qwen3.8.
+
+## [2026-11-08] — Model timeline: models.dev cross-check, 8 releases added, 5 dates fixed
+
+[models.dev](https://github.com/anomalyco/models.dev) (MIT-licensed, updated daily) is now a weekly upstream
+for the timeline. `.github/scripts/check_models_dev.py` runs in the existing upstream workflow and opens a
+review issue listing recent first-party models we lack, and any rows where release dates or open-weights
+status disagree. It never edits data. models.dev can lag (it still lists Kimi K3.1 Pro and Mistral Large 4
+as closed, though both have weights on Hugging Face), so each item is verified before it changes anything.
+Reviewed items live in `.github/upstreams/models-dev-reviewed.txt`, so each issue shows only new findings.
+
+### Added (verified against the lab's announcement or Hugging Face)
+- **US:** Claude Opus 5 (Jul 24), Grok 4.6 (Aug 12), GPT-6.1 Sol (Sep 29), Muse Wonder + Wonder Full (Oct 12),
+  plus two open-weight releases: Muse Glimmer 30B (Aug 10, Apache-2.0, Meta's first open model since Llama 4)
+  and Nemotron 3.5 Super VL (Oct 15, OpenMDW 1.1, 120B MoE).
+- **China:** MiniMax H3 open video model (Jul 31, weights Aug 3) and Tencent Hy4 preview (Aug 28, Apache-2.0,
+  770B MoE).
+
+### Fixed
+- **Claude Fable 5.1 + Mythos:** Sep 15 → Sep 1 (per the system card and release notes). The source link, which
+  returned 404, now points to Anthropic's announcement page.
+- **GLM-5.3:** Aug 25 → Aug 14 (API launch); open weights followed Aug 28.
+- **Gemini 4 Argon:** Sep 30 → Oct 13. Sep 30 was a partner-only preview for vetted cyber defenders.
+- **Mistral Large 4:** Oct 29 → Oct 6 (public API preview); open weights Oct 29.
+- **Whisper large-v3-turbo:** Oct 10 → Oct 1, 2024.
+- These follow one rule, now written into the upkeep prompt: date each row by its first public release, and
+  note a later weights date in `notes`.
+- **Rumour mill:** "Muse Wonder 1.x" is a market on a *follow-up* Wonder release in November. Its note no
+  longer calls it the next model after Muse Spark Open, since Wonder 1.0 shipped Oct 12.
+
+### Checked and kept
+models.dev's dates for GPT-4, o3-mini, Gemini 2.5 Pro and Beam 1.0 are an API, GA or waitlist date rather
+than the first public release. Its open-weights flags for Kimi K3.1 Pro and Mistral Large 4 are out of date.
+
+## [2026-11-07] — Model timeline: GPT-6, Gemini 4, Claude 5.5, Qwen4 and a new layout
+
+Monthly upkeep of [`models.html`](models.html): 22 releases added (75 → 97), each
+checked against the lab's announcement page or its Hugging Face repo, plus
+licence, context and launch-date corrections. Logged in `model_releases_history.csv`.
+
+### Added — US
+- **OpenAI** — GPT-6 Astra (Sep 3), GPT-6 Sol + Luna (Sep 22), GPT-6.1 Terra (Oct 26)
+- **Anthropic** — Claude Fable 5.1 + Mythos (Sep 15), Sonnet 5.5 (Sep 28), Haiku 5.5 (Oct 7)
+- **Google** — Gemini 4 Argon (Sep 30, generally available Oct 13), Gemini 4 Carbon (Oct 28, limited preview)
+- **Open weights** — Meta Muse Spark Open (816B MoE, Oct 15), Reflection AI Beam 1.0 (501B MoE, Apache-2.0, Oct 16)
+
+### Added — China
+- **Qwen4 (announced)** — Max / Plus / Flash / 27B named at Apsara on Sep 22; the 27B tier
+  is slated for open weights. As of Nov 7 there are no Qwen4 weights on Hugging Face, so it is
+  marked `Open (announced)`.
+- Qwen3.8-2.4T-A95B (Aug 8), Qwen3.8-Flash-Next, Qwen-Image-2.1, DeepSeek-V4.1-Flash,
+  Kimi K3.1 Pro (weights Nov 2), MiniMax-M3.1-Flash, Xiaomi MiMo-V2.6, StepFun Step-5-Preview,
+  Baidu ERNIE-5.5-Flash-Base
+
+### Added — Europe
+- Mistral Large 4 (1T MoE, open weights), FLUX 3 Image Klein (first downloadable FLUX 3 weights)
+
+### Layout
+- US / China / Europe summary cards (releases, open-weight count, open share, latest) that
+  double as region filters
+- Region filter chips (region is derived from `lab`, so the CSV schema is unchanged), with
+  per-chip counts and a "Clear filters" button
+- Year → month grouping, cards outlined in their region colour, licence shown for open
+  models, and a "New" tag for the last 60 days
+- Sticky, more compact filter bar, light-mode support and a compact phone layout
+- Fixed the footer's `models_viz_prompt.md` link, which pointed at github.com
+
+### "Telemetry" redesign (from a Google Stitch exploration)
+- Restyled `models.html` and `rumours.html` after a Google Stitch design pass: a shared top bar,
+  Geist / Inter / JetBrains Mono type, monospace labels and squarer badges, region cards with an
+  open-share bar, one filter deck with inline Region / Access / Modality facets and counts, and a
+  sticky "Chronology index" that jumps between months and highlights the one in view. Labelled
+  PARAMS / CTX / LICENSE specs. Stitch's mock data was not used; everything is still rendered from
+  the CSVs.
+
+### Rumour mill (new page)
+- Added [`rumours.html`](rumours.html) + `rumours.csv`: 20 rumoured or announced-but-unshipped
+  models (GPT-6.2, Claude Fable 5.5 / Opus 5.6, Gemini 4 Flash, Grok 4.8, Qwen4, GLM-5.4,
+  DeepSeek V4.1 Pro / V5 and more), ranked by Manifold market odds as of 2026-11-07. Linked
+  from the timeline header.
+- Anthropic's **S-1** is shown in a separate panel at the top, labelled as an IPO filing rather
+  than a model: public S-1 filed Oct 26 and S-1/A Nov 2, Nasdaq ticker ANT, listing targeted for
+  the week of Nov 16 (reported). The S-1/A says future models may soon cross the RSP "accelerated
+  progress" threshold.
+
+### Model detail drawer and site name
+- Click (or press Enter on) any card in `models.html` to open a side panel. It shows:
+  - the full specs
+  - what the access status means
+  - source links
+  - that model's rows from `model_releases_history.csv`
+  - the lab's other releases, each of which opens in the same panel
+- The panel's URL (`#model=<name>`) can be shared and opens straight to that model. Escape or a click outside closes it.
+  The model name on each card still links straight to its source.
+- This was the one worthwhile follow-up from the Stitch exploration. Its other suggestion, a benchmark
+  scatterplot, was skipped because we don't track benchmark scores.
+- **Counts agree:** the header counts only what the page can show: 95 releases plus 4 announced placeholders (two
+  rows older than two years and not marked notable are left out). The filter line reads "Showing N of 99"; the
+  placeholders aren't counted as open-weight.
+- **Chronology index grouped by year,** with a sticky year heading and per-year totals.
+- The top bar on both pages now reads **Awesome Free AI** (it was Stitch's "Telemetry") and links home.
+
+### Qwen4 placeholders
+- The single "Qwen4 (announced)" row is now four placeholder rows, one per announced tier:
+  Qwen4-Max, Qwen4-Plus and Qwen4-Flash (expected API-only) and Qwen4-27B (the only tier
+  slated for open weights). They're dated Sep 22 (Apsara) with `TBD` params, context and licence.
+- `models.html` treats `license = TBD` as a placeholder: dashed card, a **Placeholder** badge,
+  no "New" tag, and left out of the 12-month region counts. When a tier ships, set its real date,
+  specs and licence, which turns the placeholder into a normal release.
+
+### Review fixes
+- **Re-dated rows from the October data load, which were all dated "Aug 2026":** Kimi K3 → Jul 16
+  (weights Jul 27, 2.8T, 1M context); MiniMax M3 → Jun 1 (licence corrected from MIT to MiniMax
+  Community, 427B); "GLM-5 (5.2/5.3)" split into GLM-5.2 (Jun 16, MIT, 753B) and GLM-5.3 (Aug 25).
+  The vague "Qwen3.8" family row became Qwen3.8-27B (Aug 14). All now link to their exact
+  Hugging Face repos instead of organisation pages.
+- **Hugging Face repo-creation dates aren't release dates:** repos are often created privately
+  first. Corrected Qwen3.8-2.4T (Aug 12), Qwen3.8-Flash-Next (Aug 26) and Mistral Large 4
+  (open weights Oct 29, preview Oct 6) to their announced dates.
+- **Licences named:** Mistral Ecosystem Open-Weight License, StepFun Model License 1.0, Qwen3.8-Max License.
+- **Rumour odds:** `rumours.csv` gains a `market_scope` column. Markets that resolve on "any Qwen
+  model" and the like (12 of 20) are now shown as **Broad market**, with neutral colour and a
+  "market: …" caption, so "Qwen4 96%" can't be read as odds for Qwen4 itself.
+- **Accessibility:** the muted label colour now passes WCAG AA (dark 4.7–5.5:1, light 5.1–5.5:1,
+  up from 4.04:1), and no text is smaller than 11px (there were 337 elements under 10px).
+- **Sticky filter bar:** once pinned, it collapses to one row (160px → 62px) with a
+  "Filters · N active" toggle. The chronology index, month-jump targets and active-month
+  highlight follow its live height, so the index and the bar can no longer overlap.
 
 ## [2026-10-09] — Renamed the repository and added upstream review checks
 
