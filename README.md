@@ -91,6 +91,7 @@ AI tools that live in your editor or terminal.
 - **[Zed](https://zed.dev)** — High-performance open-source editor written in Rust with native AI, MCP support and multiplayer editing. *Free Personal plan: 2000 edit predictions/month.*
 - **[Multi](https://multi.dev)** — AI coding agent for VS Code and JetBrains with checkpoints, worktree isolation and parallel sub-agents; BYOK across 100+ models. *Free for individual use — all features with no request limits (BYOK).*
 - **[Matilda (Maincode)](https://www.maincode.com/matilda-code)** — Australian sovereign-AI coding agent from Maincode — terminal CLI and desktop app that plans edits across your repo and opens PRs. *Free during Public Beta.*
+- **[Mel – the agentic terminal](https://www.openmel.dev)** — Multi-agent, multi-model AI terminal for macOS, Windows and Linux, with a VS Code extension and configurable approvals. *Free with your own API key; Pro from $20/month. Proprietary.*
 
 ## Code & UI Builders
 Generate full UIs and apps from a prompt in the browser.
