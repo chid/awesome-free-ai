@@ -9,6 +9,42 @@ files are append-only and are the source of truth. This file is the human-readab
 
 Format loosely follows [Keep a Changelog](https://keepachangelog.com).
 
+## [2026-11-21] — Weekly local refresh: 5 additions (coding agent, voice stack, vector DB benchmark, eval harness, Apple Silicon serving engine)
+
+Third pass on the still-open local-tools refresh PR. Each candidate was verified by cloning the actual
+repo and checking `git log` / the LICENSE file directly, then independently spot-checked via a second
+fetch of each GitHub page. This refresh added 5 tools (88 → 93 local).
+
+### Added
+- **[Vui](https://github.com/fluxions-ai/vui)** (Audio & Speech) — streaming voice-assistant stack built on
+  the 305M-param Vui Nano TTS model with a dependency-free pure-C CPU build and voice cloning; Apache-2.0,
+  commits through Oct 10 2026.
+- **[InferBench](https://github.com/RudrenduPaul/InferBench)** (Hardware / Benchmarking) — vendor-neutral CLI
+  that measures real tokens/sec for installed local inference engines (llama.cpp, oMLX) instead of relying on
+  vendor README numbers; Apache-2.0, commits through Sep 24 2026.
+- **[Evalution](https://github.com/ModelCloud/Evalution)** (Evaluation & Harnesses) — ModelCloud's multi-engine
+  LLM evaluation toolkit (Transformers, vLLM, SGLang, TensorRT-LLM, GPTQModel, more) spanning 153 benchmark
+  families; Apache-2.0, release v0.0.14 Aug 2026, commits through Nov 2026.
+- **[SwarmClaw](https://github.com/swarmclawai/swarmclaw)** (Agent Framework) — self-hosted multi-agent
+  runtime (desktop app + CLI) with durable memory, scheduling and MCP tools, runs fully local against Ollama;
+  MIT, v1.9.40, commits through Jun 30 2026.
+- **[oMLX](https://github.com/jundot/omlx)** (Serving Engine) — Apple Silicon-only local LLM serving engine
+  with continuous batching, a tiered RAM+SSD KV cache, and OpenAI/Anthropic-compatible APIs; Apache-2.0,
+  v0.7.3rc1, commits through Nov 21 2026.
+
+Note: initial research also surfaced Zvec and Nanocoder as candidates, but both were already added to this
+same open PR in the Nov 14 pass — not re-added here.
+
+### Flagged for review (not edited this cycle)
+- **GPT4All** — the GitHub repo is still up and not archived, but its most recent desktop release is v3.10.0
+  from February 2025 (~21 months stale) and the PyPI package hasn't moved since August 2024. Doesn't meet the
+  archived/renamed/relicensed bar for an edit or removal, but worth watching next refresh.
+
+### Housekeeping
+- Corrected the `README.md` Local Tools badge/count to match the actual CSV row count: 88 → 93.
+- The pre-existing `resources.csv` row-73 (`Devin`) CSV-quoting bug flagged in the Nov 7/14 passes is still
+  present and still out of scope for this local-tools PR.
+
 ## [2026-11-14] — Weekly local refresh: an embeddable vector DB and a community terminal coding agent
 
 This refresh added 2 tools (86 → 88 local). Verified the README's local/paid/free
